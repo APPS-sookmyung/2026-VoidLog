@@ -56,7 +56,6 @@ public class UI_DialogueSystem : MonoBehaviour
     private void EndDialogue()
     {
         dialoguePanel.SetActive(false);
-        Debug.Log("대사 종료! 이제 퍼즐을 활성화하거나 기믹을 진행하세요.");
         
     }
 }
