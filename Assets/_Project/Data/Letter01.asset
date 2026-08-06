@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fd52c5d2fcd9940902eff96fa7ef33, type: 3}
+  m_Name: Letter01
+  m_EditorClassIdentifier: Assembly-CSharp::LetterSO
+  letterId: LETTER_01
+  senderName: A
+  letterTitle: "\uD3B8\uC9C0\uC81C\uBAA9"
+  letterContent: "\uD3B8\uC9C0 \uBCF8\uBB38"
