@@ -13,5 +13,10 @@ public class LetterSO : ScriptableObject
     [TextArea(2,10)]
     [SerializeField] string letterContent = "편지 본문"; // 편지 본문
 
+    public string getContent()
+    {
+        return letterContent;
+    }
+
 
 }
