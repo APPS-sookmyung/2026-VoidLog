@@ -15,15 +15,11 @@ public class UI_LetterPanel : MonoBehaviour
     private void Start() {
         Display();
     }
-    void Update()
+    public void OpenLetter() // 편지 열람했을 시
     {
-        if (letterCanvas.gameObject.activeSelf) // 편지 열람했을 시
-        {
-            letterData.setLetterOpen(true); // 오픈 여부 변경
-        }
-    
-
+        letterData.setLetterOpen(true); // 오픈 여부 변경
     }
+    
     void Display() 
     {
         // 편지내용 가져오기

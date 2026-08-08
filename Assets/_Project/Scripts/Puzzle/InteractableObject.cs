@@ -14,12 +14,15 @@ public class InteractableObject : MonoBehaviour
     [Tooltip("화면 하단에 띄울 문구 (ex. [E] 클릭)")]
     [SerializeField] GameObject clickText; // 표시할 텍스트
 
-    [Tooltip("[E] 클릭 후 띄우는 Cavas")]
+    [Header("클릭 후 뜰 이벤트")]
+    [Tooltip("[E] 클릭 후 발생할 이벤트, 끝나고 발생할 이벤트")]
     [SerializeField] Canvas canvas; // E 클릭 시 띄울 캔버스
+    [SerializeField] private UnityEvent onInteract;
+    [SerializeField] private UnityEvent onClose;
 
-    private bool isClick; // 클릭 가능 여부
-    private bool hasBeenClick = false;
+    private bool isClick; // 클릭 가능 여부 (get O)
 
+    
 
     [Header("끝난 후 나올 대사 설정")]
     [SerializeField] Puzzle_01_02_Dialogue DialogueManager; // 대사 출력 매니저
@@ -33,19 +36,27 @@ public class InteractableObject : MonoBehaviour
     
     void Update()
     {
-        // E클릭 가능한 범위면서 E클릭시 캔버스 표시
-        if (isClick)
+        // E클릭 가능한 범위면서 E클릭시 이벤트 발생
+        if (isClick && Input.GetKeyDown(KeyCode.E))
         {
-            if (Input.GetKey(KeyCode.E))
-            {
-                canvas.gameObject.SetActive(true); 
-                hasBeenClick = true;
-            }
+            canvas.gameObject.SetActive(true);
+            onInteract.Invoke();
         }
-        else // 범위 나가면 캔버스 가리기
+        
+    }
+
+
+    //이벤트 끝내기 (이벤트 캔버스 바깥 버튼 클릭시 실행)
+    public void CloseInteract()
+    {
+        canvas.gameObject.SetActive(false);
+        onClose?.Invoke();
+
+        if (DialogueManager != null && dialogueData != null)
         {
-            canvas.gameObject.SetActive(false);
+            DialogueManager.DialogueStart(dialogueData);
         }
+        
     }
  
     void OnTriggerEnter2D(Collider2D collision)
@@ -64,15 +75,14 @@ public class InteractableObject : MonoBehaviour
         {
             clickText.gameObject.SetActive(false);
             isClick = false;
-            if (hasBeenClick) // 클릭 했을 시 대사 출력
-            {
-                DialogueManager.DialogueStart(dialogueData);
-                hasBeenClick = false;    
-            }
-            
         }
         
         
+    }
+
+    public bool getIsClick()
+    {
+        return isClick;
     }
 
 

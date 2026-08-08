@@ -28,11 +28,10 @@ public class MoniterFile : MonoBehaviour
 
     [Header("모니터 Canvas")]
     [SerializeField] private Canvas moniter; // 전체 모니터 화면
-    PlayerMovement playerMovement;
-
-   
+    
+    PlayerMovement playerMovement; // 플레이어 움직임
     private bool isShowFileContent; // 파일 내용 출력 여부
-    private bool isShowMoniter = true; // 모니터 출력 여부
+
 
 
     void Awake()
@@ -43,29 +42,26 @@ public class MoniterFile : MonoBehaviour
     {
         isShowFileContent = false; //처음에는 파일 내용 출력X
     }
-    void Update()
-    {
-        if (isShowMoniter) // 모니터 화면 보일 때
-        {
-            // 파일 클릭 -> 파일 내용 보임 , 파일 밖에 클릭 -> 파일 내용 꺼짐
-            fileContent.gameObject.SetActive(isShowFileContent);
-            playerMovement.setCanMove(false); // 못 움직임
-        }
-        else
-        {            
-            moniter.gameObject.SetActive(isShowMoniter); // 모니터 화면 비활성화
-            playerMovement.setCanMove(true); // 움직이기 가능
-            isShowMoniter = true; // 다시 모니터 열람시 오류 방지
 
-        }
+    public void OpenMonitor()
+    {
+        playerMovement.setCanMove(false); // 못 움직임
+    
+        // 파일 클릭 -> 파일 내용 보임 , 파일 밖에 클릭 -> 파일 내용 꺼짐
+        fileContent.gameObject.SetActive(isShowFileContent);
+        
         
     }
-
+    public void CloseMonitor() // X버튼 클릭시 창 내리기
+    {
+            playerMovement.setCanMove(true); // 움직이기 가능
+    }
     
     public void trueFileClick() // 금기사항 파일 클릭시
     {
         isShowFileContent = true;
         fileContentText.text = tabooFileText;
+        OpenMonitor();
     }
 
        public void falseFileClick()  // 손상파일 클릭시
@@ -73,6 +69,7 @@ public class MoniterFile : MonoBehaviour
     {
         isShowFileContent = true;
         fileContentText.text = corruptedFileText;
+        OpenMonitor();
     }
 
     public void mainClick() // 파일 보이는 상태에서 메인 모니터 클릭시 파일 내용 꺼지기
@@ -81,14 +78,9 @@ public class MoniterFile : MonoBehaviour
         {
             isShowFileContent = false;
         }
+        OpenMonitor();
     }
-    public void closeClick() // X버튼 클릭시 창 내리기
-    {
-        if (!isShowFileContent)
-        {
-            isShowMoniter = false;
-        }
-    }
+   
 
     
 
