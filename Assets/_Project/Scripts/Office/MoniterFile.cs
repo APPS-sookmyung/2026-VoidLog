@@ -30,8 +30,10 @@ public class MoniterFile : MonoBehaviour
     [SerializeField] private Canvas moniter; // 전체 모니터 화면
     PlayerMovement playerMovement;
 
-    bool isShowFileContent; // 파일 내용 출력 여부
-    bool isShowMoniter = true; // 모니터 출력 여부
+   
+    private bool isShowFileContent; // 파일 내용 출력 여부
+    private bool isShowMoniter = true; // 모니터 출력 여부
+
 
     void Awake()
     {
@@ -50,10 +52,11 @@ public class MoniterFile : MonoBehaviour
             playerMovement.setCanMove(false); // 못 움직임
         }
         else
-        {
-            moniter.gameObject.SetActive(isShowMoniter);
+        {            
+            moniter.gameObject.SetActive(isShowMoniter); // 모니터 화면 비활성화
             playerMovement.setCanMove(true); // 움직이기 가능
             isShowMoniter = true; // 다시 모니터 열람시 오류 방지
+
         }
         
     }
@@ -86,6 +89,9 @@ public class MoniterFile : MonoBehaviour
             isShowMoniter = false;
         }
     }
+
+    
+
 
     
 

@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -9,7 +10,7 @@ using UnityEngine.UI;
 
 public class InteractableObject : MonoBehaviour
 {
-
+    [Header("[E] 클릭 안내 문구")]
     [Tooltip("화면 하단에 띄울 문구 (ex. [E] 클릭)")]
     [SerializeField] GameObject clickText; // 표시할 텍스트
 
@@ -17,11 +18,15 @@ public class InteractableObject : MonoBehaviour
     [SerializeField] Canvas canvas; // E 클릭 시 띄울 캔버스
 
     private bool isClick; // 클릭 가능 여부
+    private bool hasBeenClick = false;
 
 
-    void Start()
+    [Header("끝난 후 나올 대사 설정")]
+    [SerializeField] Puzzle_01_02_Dialogue DialogueManager; // 대사 출력 매니저
+    [SerializeField] private DialogueSO dialogueData; // 대사 데이터
+
+    void Start() // 처음에 캔버스 가림
     {
-        // E 클릭 멘트 및 캔버스 가림
         clickText.gameObject.SetActive(false); 
         canvas.gameObject.SetActive(false);
     }
@@ -33,7 +38,8 @@ public class InteractableObject : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.E))
             {
-                canvas.gameObject.SetActive(true);  
+                canvas.gameObject.SetActive(true); 
+                hasBeenClick = true;
             }
         }
         else // 범위 나가면 캔버스 가리기
@@ -53,12 +59,20 @@ public class InteractableObject : MonoBehaviour
     }
     void OnTriggerExit2D(Collider2D collision)
     {
-        //플레이어 멀어질 시 글자 가림 & 클릭 불가능
+        //플레이어 멀어질 시 글자 가림 & E 클릭 불가능
         if(collision.gameObject.tag == "Player")
         {
             clickText.gameObject.SetActive(false);
             isClick = false;
+            if (hasBeenClick) // 클릭 했을 시 대사 출력
+            {
+                DialogueManager.DialogueStart(dialogueData);
+                hasBeenClick = false;    
+            }
+            
         }
+        
+        
     }
 
 

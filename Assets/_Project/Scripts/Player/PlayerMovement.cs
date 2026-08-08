@@ -4,7 +4,7 @@ using UnityEngine;
 //CanMove()를 통해 주인공 동작 불가능/가능 제어
 public class PlayerMovement : MonoBehaviour
 {
-    public bool CanMove = true; // 이동 기본 설정 
+    private bool CanMove = true; // 이동 기본 설정 
     [SerializeField] private float moveSpeed = 3f; // 기본 스피드 값
 
     private Rigidbody2D rb;
