@@ -11,13 +11,13 @@ public class InteractableObject : MonoBehaviour
 {
 
     [Tooltip("화면 하단에 띄울 문구 (ex. [E] 클릭)")]
-    [SerializeField] TextMeshProUGUI clickText; // 표시할 텍스트
+    [SerializeField] GameObject clickText; // 표시할 텍스트
 
     [Tooltip("[E] 클릭 후 띄우는 Cavas")]
     [SerializeField] Canvas canvas; // E 클릭 시 띄울 캔버스
 
     private bool isClick; // 클릭 가능 여부
- 
+
 
     void Start()
     {

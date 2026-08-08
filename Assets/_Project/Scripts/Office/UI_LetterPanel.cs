@@ -7,8 +7,6 @@ using UnityEngine;
 public class UI_LetterPanel : MonoBehaviour
 {
     [SerializeField] private LetterSO letter; // 편지 데이터 가져오기
-
-    [SerializeField] private Canvas letterCanvas; // 편지 캔버스
     [SerializeField] private TextMeshProUGUI content; // 편지 캔버스 속 텍스트 
 
 
