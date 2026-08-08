@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+//퍼즐 1 모니터 실행 스크립트
 public class MoniterFile : MonoBehaviour
 {
     [Header("파일 Image")]

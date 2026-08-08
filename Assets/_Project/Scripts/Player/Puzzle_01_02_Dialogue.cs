@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 
 
-//대사 출력 매니저 -> 대사 Data를 가져와 출력 및 버튼 클릭 함수
+//대사 출력 매니저 -> 대사 Data를 가져와 출력 및 버튼 클릭 스크립트
 public class Puzzle_01_02_Dialogue : MonoBehaviour
 {
     [Header("UI References")]

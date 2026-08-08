@@ -6,7 +6,8 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 
 // 플레이어와 상호작용하는 오브젝트(편지, 키패드, 모니터화면 등등)에 넣는 스크립트
-//콜라이더 구역 안에 플레이어 접근 시 [E] 클릭 텍스트 표시
+//콜라이더 구역 안에 플레이어 접근 시 [E] 클릭 텍스트 표시 
+// 이벤트 시작 및 종료 실행 > 종료 이후에 대사 출력
 
 public class InteractableObject : MonoBehaviour
 {

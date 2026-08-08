@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI; 
 using TMPro;
 
+
+// 퍼즐1 복도 지도키패드 기능 스크립트
+
 public class Puzzle_CorridorPassword : MonoBehaviour
 {
     [SerializeField] private TMP_InputField passwordInputField;
