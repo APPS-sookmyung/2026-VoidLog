@@ -4,7 +4,7 @@ public class MainConsoleManager : MonoBehaviour
 {
     [Header("화면 UI 연결")]
     [SerializeField] private GameObject screenFalse; // 클리어 전 화면
-    [SerializeField] private GameObject screenTrue;  // 클리어 후 화면 (또는 퍼즐/성공 화면)
+    [SerializeField] private GameObject screenTrue;  // 클리어 후 화면
 
     [Header("상태")]
     public bool isPuzzleCleared = false;

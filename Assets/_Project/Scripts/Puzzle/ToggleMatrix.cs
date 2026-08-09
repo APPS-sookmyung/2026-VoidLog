@@ -127,7 +127,7 @@ public class ToggleMatrix : MonoBehaviour
 
         if (isAllOn)
         {
-            // TODO: 퍼즐 클리어 시 실행할 로직 (ex. 다음 단계 진행, 문 열기 등)
+            // TODO: 퍼즐 클리어 시 실행할 로직
             // 퍼즐 클리어 성공
             if (statusText != null)
             {
