@@ -14,6 +14,9 @@ public class ToggleMatrix : MonoBehaviour
     [SerializeField] private Color offColor = Color.gray;   // 레버 OFF 색상
     [SerializeField] private Color onColor = Color.green;   // 레버 ON 색상
 
+    [Header("외부 연결")]
+    [SerializeField] private MainConsoleManager mainConsoleManager; // 메인 콘솔 매니저
+
     // 6개 레버의 현재 ON/OFF 상태 저장 (true = ON, false = OFF)
     private bool[] leverStates = new bool[6];
 
@@ -124,12 +127,18 @@ public class ToggleMatrix : MonoBehaviour
 
         if (isAllOn)
         {
-            // TODO: 퍼즐 클리어 시 실행할 로직 (ex. 다음 단계 진행, 문 열기 등)
+            // TODO: 퍼즐 클리어 시 실행할 로직
             // 퍼즐 클리어 성공
             if (statusText != null)
             {
                 statusText.text = "<color=green>[ SIGNAL : ON ]</color>";
             }
+
+            if (mainConsoleManager != null)
+            {
+                mainConsoleManager.SetPuzzleClear();
+            }
+
             Debug.Log("Clear");
         }
         else
