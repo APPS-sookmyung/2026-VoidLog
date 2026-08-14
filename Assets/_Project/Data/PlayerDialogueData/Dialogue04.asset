@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 052ba0b437b2a0847b25912c9312851a, type: 3}
+  m_Name: Dialogue04
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueSO
+  dialogues:
+  - "\uCE74\uB4DC\uD0A4 \uC5C6\uC774 \uBB38\uC774 \uC5F4\uB838\uC5B4... "
+  - "\uBCBD\uC5D0 \uC774\uB7F0 \uAC78 \uC228\uACA8\uB450\uB2E4\uB2C8. \uD68C\uC0AC\uAC00
+    \uBCF4\uC5EC\uC8FC\uB294 \uAC8C \uC804\uBD80\uAC00 \uC544\uB2C8\uC5C8\uC5B4.  "

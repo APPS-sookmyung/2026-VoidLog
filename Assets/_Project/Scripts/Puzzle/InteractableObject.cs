@@ -15,10 +15,14 @@ public class InteractableObject : MonoBehaviour
     [Header("클릭 후 뜰 이벤트")]
     [Tooltip("[E] 클릭 후 발생할 이벤트, 끝나고 발생할 이벤트")]
     [SerializeField] private Canvas canvas;
-    [SerializeField] private UnityEvent onInteract;
-    [SerializeField] private UnityEvent onClose;
+    [SerializeField] private UnityEvent onInteract; // 발생할 캔버스 속 시작 함수
+    [SerializeField] private UnityEvent onClose; // 발생할 캔버스 속 끝낼 때 함수
 
     private bool isClick;
+
+    [Header("클릭 후 나올 대사 설정")]
+    [SerializeField] private Puzzle_01_02_Dialogue first_DialogueManager;
+    [SerializeField] private DialogueSO first_dialogueData;
 
     [Header("끝난 후 나올 대사 설정")]
     [SerializeField] private Puzzle_01_02_Dialogue DialogueManager;
@@ -39,6 +43,10 @@ public class InteractableObject : MonoBehaviour
                 bool isCanvasActive = canvas.gameObject.activeSelf;
                 canvas.gameObject.SetActive(!isCanvasActive);
 
+                if (first_DialogueManager != null && first_dialogueData != null)
+                {
+                    first_DialogueManager.DialogueStart(first_dialogueData);
+                }
                 // 캔버스가 켜질 때만 연동된 외부 이벤트 실행
                 if (!isCanvasActive)
                 {
