@@ -20,12 +20,7 @@ public class Puzzle_CorridorPassword : MonoBehaviour
     [SerializeField] private string correctPassword = "35015";
 
     private bool hasBeenOpen = false; // 오픈 여부 (get O)
-    private PlayerMovement player; // 플레이어 움직임
 
-    void Awake()
-    {
-        player = FindObjectOfType<PlayerMovement>();
-    }
     void Start()
     {
         MapKeyPad.gameObject.SetActive(false);
@@ -37,7 +32,6 @@ public class Puzzle_CorridorPassword : MonoBehaviour
     {
         Map.gameObject.SetActive(false); // 지도 화면 안뜨게
         passwordInputField.text = ""; //비밀번호 입력 초기화
-        player.setCanMove(false);
         if (passwordInputField != null)
         {
             // 초기 세팅: 자리 제한 및 숫자만 입력 가능하도록 강제 설정
@@ -133,10 +127,7 @@ public class Puzzle_CorridorPassword : MonoBehaviour
         return hasBeenOpen;
     }
 
-    public void close()
-    {
-        player.setCanMove(true);
-    }
+
 
 
 

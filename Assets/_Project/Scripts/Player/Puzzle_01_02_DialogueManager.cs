@@ -4,7 +4,7 @@ using TMPro;
 
 
 //대사 출력 매니저 -> 대사 Data를 가져와 출력 및 버튼 클릭 스크립트
-public class Puzzle_01_02_Dialogue : MonoBehaviour
+public class Puzzle_01_02_DialogueManager : MonoBehaviour
 {
     [Header("UI References")]
     [SerializeField] private TextMeshProUGUI dialogueText; // 대사가 출력될 TMP
@@ -67,6 +67,10 @@ public class Puzzle_01_02_Dialogue : MonoBehaviour
     {
         dialogueText.text = currentDialogue.getDialogues()[currentIndex];
     }
+    public int getCurrentIndex()
+    {
+        return currentIndex;
+    } // 현재 몇 번째 대사인지 기억할 변수 반환
   
     
 }

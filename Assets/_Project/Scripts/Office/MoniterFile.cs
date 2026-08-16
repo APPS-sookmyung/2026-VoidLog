@@ -30,15 +30,10 @@ public class MoniterFile : MonoBehaviour
     [Header("모니터 Canvas")]
     [SerializeField] private Canvas moniter; // 전체 모니터 화면
     
-    PlayerMovement playerMovement; // 플레이어 움직임
     private bool isShowFileContent; // 파일 내용 출력 여부
 
 
 
-    void Awake()
-    {
-        playerMovement = FindObjectOfType<PlayerMovement>();
-    }
     void Start()
     {
         isShowFileContent = false; //처음에는 파일 내용 출력X
@@ -46,16 +41,11 @@ public class MoniterFile : MonoBehaviour
 
     public void OpenMonitor()
     {
-        playerMovement.setCanMove(false); // 못 움직임
-    
         // 파일 클릭 -> 파일 내용 보임 , 파일 밖에 클릭 -> 파일 내용 꺼짐
-        fileContent.gameObject.SetActive(isShowFileContent);
-        
-        
+        fileContent.gameObject.SetActive(isShowFileContent);   
     }
     public void CloseMonitor() // X버튼 클릭시 창 내리기
     {
-            playerMovement.setCanMove(true); // 움직이기 가능
     }
     
     public void trueFileClick() // 금기사항 파일 클릭시

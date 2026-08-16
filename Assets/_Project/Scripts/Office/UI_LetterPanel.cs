@@ -2,7 +2,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
-//편지 캔버스에 넣는 스크립트
+//편지 오브젝트에 넣는 스크립트
 // 플레이어가 접근해서 E 클릭시 편지 오브젝트 화면에 띄움
 public class UI_LetterPanel : MonoBehaviour
 {
@@ -10,14 +10,15 @@ public class UI_LetterPanel : MonoBehaviour
     [SerializeField] private Canvas letterCanvas; // 편지 캔버스
     [SerializeField] private TextMeshProUGUI content; // 편지 캔버스 속 텍스트 
 
- 
-
-    private void Start() {
-        Display();
-    }
-    public void OpenLetter() // 편지 열람했을 시
+    public void OpenLetter() // 편지 열람했을 시 (InteractableObject 연결)
     {
+        Display();
         letterData.setLetterOpen(true); // 오픈 여부 변경
+    }
+
+    public void CloseLetter()
+    {
+        letterCanvas.gameObject.SetActive(false);
     }
     
     void Display() 
