@@ -67,10 +67,7 @@ public class Puzzle_01_02_DialogueManager : MonoBehaviour
     {
         dialogueText.text = currentDialogue.getDialogues()[currentIndex];
     }
-    public int getCurrentIndex()
-    {
-        return currentIndex;
-    } // 현재 몇 번째 대사인지 기억할 변수 반환
+
   
     
 }

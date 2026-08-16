@@ -1,6 +1,5 @@
 using System;
 using TMPro;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -23,7 +22,7 @@ public class InteractableObject : MonoBehaviour
     private PlayerMovement player;
 
     [Header("끝난 후 나올 대사 설정")]
-    [SerializeField] private Puzzle_01_02_DialogueManager DialogueManager;
+    [SerializeField] private Puzzle_01_02_DialogueManager dialogueManager;
     [SerializeField] private DialogueSO dialogueData;
 
     void Awake()
@@ -38,7 +37,8 @@ public class InteractableObject : MonoBehaviour
     
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && isClick) // E 클릭시 캔버스 활성화 및 움직임 제어
+        if (Input.GetKeyDown(KeyCode.E) && isClick && canvas != null && !canvas.gameObject.activeSelf) 
+        // E 클릭시 캔버스 활성화 및 움직임 제어
         {
             if (canvas != null)
             {
@@ -49,11 +49,11 @@ public class InteractableObject : MonoBehaviour
                 
             }
         }
-        if(!canvas.gameObject.activeSelf && hasInteracted) // 캔버스 꺼지면 대사 출력 및 움직임 가능
+        if( canvas != null &&!canvas.gameObject.activeSelf && hasInteracted) // 캔버스 꺼지면 대사 출력 및 움직임 가능
         {
-            if (DialogueManager != null && dialogueData != null)
+            if (dialogueManager != null && dialogueData != null)
             {
-                DialogueManager.DialogueStart(dialogueData);
+                dialogueManager.DialogueStart(dialogueData);
             }
             else
             {

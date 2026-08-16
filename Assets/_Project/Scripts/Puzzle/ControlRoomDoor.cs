@@ -150,7 +150,7 @@ public class ControlRoomDoor : MonoBehaviour
     // 초기화 버튼
     public void DeletePasswordNumber() 
     {
-        if (passwordInput.Length > 0 && !isOpen)
+        if (passwordInput.Length >= 0 && !isOpen)
         {
             passwordInput = ""; // 입력 초기화
             feedbackText.text = "일반 사원은 접근할 수 없습니다.";
