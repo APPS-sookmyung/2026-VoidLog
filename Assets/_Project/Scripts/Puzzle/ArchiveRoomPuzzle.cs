@@ -1,10 +1,15 @@
 using TMPro;
 using System.Collections;
+using System.Linq;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class ArchiveRoomPuzzle : MonoBehaviour
 {
+
+    [Header("UI References (Digits)")]
+    [Tooltip("각 숫자가 표시될 4개의 TextMeshPro UI")]
+    [SerializeField] private TextMeshProUGUI[] digitTexts = new TextMeshProUGUI[4];
 
     [Header("UI References")]
     [SerializeField] private TMP_InputField passwordInputField;
@@ -14,10 +19,12 @@ public class ArchiveRoomPuzzle : MonoBehaviour
     [SerializeField] private string correctPassword = "1234";
     [SerializeField] private string nextSceneName = "Scene_06_Hangar"; // 6번 격납고 씬 이름
 
+    private Canvas puzzleCanvas;
+
     private void Awake()
     {
-        // 처음에는 비활성화 상태로 시작
-        // 다른 스크립트에서 필요할 때 활성화
+        puzzleCanvas = GetComponent<Canvas>();
+        if (puzzleCanvas == null) puzzleCanvas = GetComponentInParent<Canvas>();
     }
 
     private void Start()
@@ -30,14 +37,36 @@ public class ArchiveRoomPuzzle : MonoBehaviour
             
             // 입력창 글자 입력될 때마다 실행될 리스너 연결
             passwordInputField.onValueChanged.AddListener(OnInputChanged);
-            passwordInputField.onEndEdit.AddListener(OnSubmitPassword);
         }
+    }
 
+    private void OnEnable()
+    {
+        // UI가 활성화될 때마다 초기화 및 포커스 설정
+        InitializeUI();
+    }
+
+    private void Update()
+    {
+        // 엔터 키를 눌렀을 때 정답 제출
+        if (passwordInputField.isFocused && (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)))
+        {
+            OnSubmitPassword(passwordInputField.text);
+        }
+    }
+
+    private void InitializeUI()
+    {
         if (feedbackText != null)
         {
             feedbackText.text = "비밀번호를 입력하세요.";
             feedbackText.color = Color.white;
         }
+
+        // 입력창과 숫자 텍스트 초기화
+        passwordInputField.text = "";
+        UpdateDigitDisplay("");
+        passwordInputField.ActivateInputField(); // 활성화 시 자동으로 입력창에 포커스
     }
 
     // 입력 도중 호출
@@ -49,12 +78,19 @@ public class ArchiveRoomPuzzle : MonoBehaviour
             feedbackText.color = Color.white;
             feedbackText.text = "입력 중...";
         }
+        UpdateDigitDisplay(currentText);
+
+        // 4자리가 모두 입력되면 자동으로 정답 검증
+        if (currentText.Length >= 4)
+        {
+            OnSubmitPassword(currentText);
+        }
     }
 
     // 엔터키를 누르거나 입력 포커스가 빠졌을 때 판정
     private void OnSubmitPassword(string inputPassword)
     {
-        // 4자리를 다 채우지 않았다면 리턴
+        // 4자리를 다 채우지 않았다면 오류 표시
         if (inputPassword.Length < 4)
         {
             ShowError("4자리 숫자를 모두 입력해야 합니다.");
@@ -82,8 +118,21 @@ public class ArchiveRoomPuzzle : MonoBehaviour
         }
         
         // 입력창 초기화 및 재포커스
-        passwordInputField.text = "";
+        passwordInputField.SetTextWithoutNotify(""); // onValueChanged 리스너를 호출하지 않고 텍스트 초기화
+        UpdateDigitDisplay("");
         passwordInputField.ActivateInputField();
+    }
+
+    // 입력된 숫자를 밑줄 UI에 표시하는 함수
+    private void UpdateDigitDisplay(string currentText)
+    {
+        for (int i = 0; i < digitTexts.Length; i++)
+        {
+            if (digitTexts[i] != null)
+            {
+                digitTexts[i].text = (i < currentText.Length) ? currentText[i].ToString() : "_";
+            }
+        }
     }
 
     // 정답 시 연출 및 다음 씬 이동
@@ -98,7 +147,10 @@ public class ArchiveRoomPuzzle : MonoBehaviour
         passwordInputField.interactable = false;
 
         // 잠시 연출을 보고 넘어갈 수 있도록 1.5초 대기
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2.0f);
+
+        // 캔버스 비활성화
+        if (puzzleCanvas != null) puzzleCanvas.gameObject.SetActive(false);
 
         // 다음 구역인 격납고(Scene_06_Hangar)로 이동
         SceneManager.LoadScene(nextSceneName);
