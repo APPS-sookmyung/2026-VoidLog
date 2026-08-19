@@ -37,19 +37,27 @@ public class InteractableObject : MonoBehaviour
     
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && isClick && canvas != null && !canvas.gameObject.activeSelf) 
-        // E 클릭시 캔버스 활성화 및 움직임 제어
+        // E 키 입력 처리
+        if (Input.GetKeyDown(KeyCode.E) && isClick)
         {
             if (canvas != null)
             {
-                canvas.gameObject.SetActive(true);
-                player.setCanMove(false);
-                onInteract?.Invoke(); // 연동된 외부 이벤트 실행
-                hasInteracted = true;
-                
+                // 캔버스가 비활성화 상태이면 활성화
+                if (!canvas.gameObject.activeSelf)
+                {
+                    canvas.gameObject.SetActive(true);
+                    player.setCanMove(false);
+                    onInteract?.Invoke(); // 연동된 외부 이벤트 실행
+                    hasInteracted = true;
+                }
+                // 캔버스가 활성화 상태이면 비활성화 (닫기)
+                else
+                {
+                    CloseInteract();
+                }
             }
         }
-        if( canvas != null &&!canvas.gameObject.activeSelf && hasInteracted) // 캔버스 꺼지면 대사 출력 및 움직임 가능
+        if(canvas != null && !canvas.gameObject.activeSelf && hasInteracted) // 캔버스가 꺼진 '직후'에 한 번 실행되는 로직
         {
             if (dialogueManager != null && dialogueData != null)
             {
@@ -59,7 +67,7 @@ public class InteractableObject : MonoBehaviour
             {
                 player.setCanMove(true);
             }
-            
+            // 한 번 실행 후 다시 실행되지 않도록 플래그를 false로 변경
             hasInteracted = false;
         }
     }
