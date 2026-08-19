@@ -151,9 +151,6 @@ public class ArchiveRoomPuzzle : MonoBehaviour
 
         // 캔버스 비활성화
         if (puzzleCanvas != null) puzzleCanvas.gameObject.SetActive(false);
-
-        // 다음 구역인 격납고(Scene_06_Hangar)로 이동
-        SceneManager.LoadScene(nextSceneName);
     }
 
 }
