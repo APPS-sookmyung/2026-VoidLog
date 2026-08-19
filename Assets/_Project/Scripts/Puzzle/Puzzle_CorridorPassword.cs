@@ -127,4 +127,8 @@ public class Puzzle_CorridorPassword : MonoBehaviour
         return hasBeenOpen;
     }
 
+
+
+
+
 }
