@@ -23,6 +23,7 @@ public class ControlRoomDoor : MonoBehaviour
     
     [SerializeField] private TextMeshProUGUI feedbackText; // 안내 및 오답 알림용 텍스트
     [SerializeField] private TextMeshProUGUI statusText; // 상태 확인용 텍스트
+    [SerializeField] private SceneChangeInteractable sceneChangeInteractable; // 도어락 오픈 후 연결될 다음 씬
 
     private string passwordInput; // 플레이어 정답 저장 변수
     private bool isOpen = false; // 문 오픈 여부
@@ -76,6 +77,7 @@ public class ControlRoomDoor : MonoBehaviour
         {
             statusText.text ="열림";
             statusText.color = Color.blue;
+            sceneChangeInteractable.LoadNextScene();
         }
     }
 
@@ -127,6 +129,7 @@ public class ControlRoomDoor : MonoBehaviour
             feedbackText.text = "인증이 완료되었습니다.";
             statusText.text ="열림";
             statusText.color = Color.blue;
+            sceneChangeInteractable.LoadNextScene();
         }
         else
         {
