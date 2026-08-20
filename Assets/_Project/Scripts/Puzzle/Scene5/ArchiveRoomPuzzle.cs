@@ -19,6 +19,9 @@ public class ArchiveRoomPuzzle : MonoBehaviour
     [SerializeField] private string correctPassword = "1234";
     [SerializeField] private string nextSceneName = "Scene_06_Hangar"; // 6번 격납고 씬 이름
 
+    [Header("퍼즐 컨트롤러 연결")]
+    [SerializeField] private PuzzleController puzzleController; 
+
     private Canvas puzzleCanvas;
     public bool IsPuzzleCleared { get; private set; } = false;
 
@@ -139,9 +142,13 @@ public class ArchiveRoomPuzzle : MonoBehaviour
     // 정답 시 연출
     private IEnumerator SuccessSequence()
     {
+        if (puzzleController != null)
+        {
+            puzzleController.SolvePuzzle();
+        }
+
         if (feedbackText != null)
         {
-            IsPuzzleCleared = true;
             feedbackText.color = Color.green;
             feedbackText.text = "[인증 완료: 보안 권한이 승인되었습니다.]";
         }
@@ -149,7 +156,7 @@ public class ArchiveRoomPuzzle : MonoBehaviour
         passwordInputField.interactable = false;
 
         // 잠시 연출을 보고 넘어갈 수 있도록 1.5초 대기
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.5f);
 
         // 캔버스 비활성화
         if (puzzleCanvas != null) puzzleCanvas.gameObject.SetActive(false);
