@@ -824,6 +824,7 @@ MonoBehaviour:
   correctPassword: 123456789
   feedbackText: {fileID: 1810531188}
   statusText: {fileID: 385267679}
+  sceneChangeInteractable: {fileID: 1205968957}
 --- !u!1 &66827668
 GameObject:
   m_ObjectHideFlags: 0
@@ -12226,6 +12227,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1182489901}
   m_CullTransparentMesh: 1
+--- !u!1 &1205968956
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1205968958}
+  - component: {fileID: 1205968957}
+  m_Layer: 0
+  m_Name: NextSceneManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1205968957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1205968956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9154fec6057b1f749b032f210c1b918d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneChangeInteractable
+  clickText: {fileID: 1070229390}
+  nextSceneName: Scene_03_Control
+--- !u!4 &1205968958
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1205968956}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1214.9213, y: 457.93903, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1232672178
 GameObject:
   m_ObjectHideFlags: 0
@@ -22385,3 +22432,4 @@ SceneRoots:
   - {fileID: 1798060100}
   - {fileID: 859660894}
   - {fileID: 1732955898}
+  - {fileID: 1205968958}
