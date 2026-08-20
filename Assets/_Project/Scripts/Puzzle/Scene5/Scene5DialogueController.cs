@@ -5,7 +5,7 @@ public class Scene5DialogueController : MonoBehaviour
     [Header("씬 대사 CSV 파일 연결")]
     [SerializeField] private TextAsset sceneDialogueCSV; 
 
-    [Header("연결할 퍼즐")]
+    [Header("퍼즐 컨트롤러 연결")]
     [SerializeField] private PuzzleController targetPuzzle; // 퍼즐 컨트롤러 연결
 
     private void Start()
