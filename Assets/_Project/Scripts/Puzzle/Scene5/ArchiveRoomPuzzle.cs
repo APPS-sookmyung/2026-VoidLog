@@ -17,7 +17,6 @@ public class ArchiveRoomPuzzle : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private string correctPassword = "1234";
-    [SerializeField] private string nextSceneName = "Scene_06_Hangar"; // 6번 격납고 씬 이름
 
     [Header("퍼즐 컨트롤러 연결")]
     [SerializeField] private PuzzleController puzzleController; 
