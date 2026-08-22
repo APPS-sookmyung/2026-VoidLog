@@ -35,7 +35,6 @@ public class Puzzle_01_02_DialogueManager : MonoBehaviour
        if (currentDialogue.getDialogues().Count > 0)
        {
             dialoguePanel.SetActive(true);
-            player.setCanMove(false);
 
             ShowCurrentDialogue();
         }
@@ -56,7 +55,6 @@ public class Puzzle_01_02_DialogueManager : MonoBehaviour
          else // 전부 출력했다면
         {
             currentDialogue.setHasDialogue(true);
-            player.setCanMove(true);
             dialoguePanel.SetActive(false);
     }
        

@@ -1,9 +1,9 @@
 using System;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.UI; 
 using TMPro;
 using System.Collections;
+using UnityEngine.SceneManagement; // 씬 전환을 위해 반드시 필요!
 
 //퍼즐2 도어락 스크립트
 public class ControlRoomDoor : MonoBehaviour
@@ -23,10 +23,11 @@ public class ControlRoomDoor : MonoBehaviour
     
     [SerializeField] private TextMeshProUGUI feedbackText; // 안내 및 오답 알림용 텍스트
     [SerializeField] private TextMeshProUGUI statusText; // 상태 확인용 텍스트
-    [SerializeField] private SceneChangeInteractable sceneChangeInteractable; // 도어락 오픈 후 연결될 다음 씬
+    [Header("이동할 씬 설정")]
+    [Tooltip("Build Settings에 등록된 이동하고자 하는 씬의 정확한 이름")]
+    [SerializeField] private string nextSceneName;
 
     private string passwordInput; // 플레이어 정답 저장 변수
-    private bool isOpen = false; // 문 오픈 여부
     private bool isDialogueRunning; // 중복 생성 방지
 
     void Start()
@@ -36,7 +37,7 @@ public class ControlRoomDoor : MonoBehaviour
     }
     void Update()
     {
-        if (!isOpen && doorLockCanvas.gameObject.activeSelf) 
+        if (!GameProgressData.hasOpenedControlRoomDoor && doorLockCanvas.gameObject.activeSelf) 
         {   // 오픈 못한 상태에서 안내용 텍스트
             if (feedbackText != null)
             {
@@ -52,22 +53,23 @@ public class ControlRoomDoor : MonoBehaviour
             }
 
         }
-        CloseDoor(); // ESC -> 창 닫기
+        if (!doorLockCanvas.gameObject.activeSelf)
+        {
+            CloseDoor(); // ESC -> 창 닫기    
+        }
     }
 
     // 처음 도어락 열었을 때 - 비밀번호 초기화 및 상태와 안내 문구, 대사 출력
     public void DoorCheck() 
     {
-        Debug.Log("첫 대사 완료 상태 : " + firstDialogue.getHasDialogue()); // 테스트
-        if (!isOpen)
+        if (!GameProgressData.hasOpenedControlRoomDoor)
         {
             passwordInput = ""; //비밀번호 입력 초기화
             statusText.text = "잠김";
             feedbackText.text = "일반 사원은 접근할 수 없습니다.";
             feedbackText.color = Color.white;  
 
-            firstDialogue.setHasDialogue(false);
-            if (!isDialogueRunning)
+            if (!isDialogueRunning  && !firstDialogue.getHasDialogue())
             {
                 StartCoroutine(DoorDialogue());
             }
@@ -75,9 +77,8 @@ public class ControlRoomDoor : MonoBehaviour
         }
         else
         {
-            statusText.text ="열림";
-            statusText.color = Color.blue;
-            sceneChangeInteractable.LoadNextScene();
+            doorLockCanvas.gameObject.SetActive(false);
+            LoadNextScene();
         }
     }
 
@@ -108,10 +109,10 @@ public class ControlRoomDoor : MonoBehaviour
     }
     public void CloseDoor() // ESC 창 닫기
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKey(KeyCode.E))
         {
             doorLockCanvas.gameObject.SetActive(false);
-            if (isOpen && !lastDialogue.getHasDialogue())
+            if (GameProgressData.hasOpenedControlRoomDoor && !lastDialogue.getHasDialogue())
             {
                 dialogueManager.DialogueStart(lastDialogue);
             }
@@ -124,12 +125,11 @@ public class ControlRoomDoor : MonoBehaviour
         // 비밀번호 검증
         if (inputPassword == correctPassword)
         {
-            isOpen = true;
+            GameProgressData.hasOpenedControlRoomDoor = true;
             feedbackText.color = Color.white;
             feedbackText.text = "인증이 완료되었습니다.";
             statusText.text ="열림";
             statusText.color = Color.blue;
-            sceneChangeInteractable.LoadNextScene();
         }
         else
         {
@@ -153,7 +153,7 @@ public class ControlRoomDoor : MonoBehaviour
     // 초기화 버튼
     public void DeletePasswordNumber() 
     {
-        if (passwordInput.Length >= 0 && !isOpen)
+        if (passwordInput.Length >= 0 && !GameProgressData.hasOpenedControlRoomDoor)
         {
             passwordInput = ""; // 입력 초기화
             feedbackText.text = "일반 사원은 접근할 수 없습니다.";
@@ -171,6 +171,17 @@ public class ControlRoomDoor : MonoBehaviour
     }
   
 
-
+    // 씬 전환 실행 함수
+    public void LoadNextScene()
+    {
+        if (!string.IsNullOrEmpty(nextSceneName))
+        {
+            SceneManager.LoadScene(nextSceneName);
+        }
+        else
+        {
+            Debug.LogWarning("[SceneChangeInteractable] 이동할 씬 이름(nextSceneName)이 설정되지 않았습니다!");
+        }
+    }
     
 }
