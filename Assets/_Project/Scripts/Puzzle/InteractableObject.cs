@@ -22,6 +22,7 @@ public class InteractableObject : MonoBehaviour
     private bool hasInteracted = false; // 이벤트 열람 여부 확인용
     private PlayerMovement player;
     private bool isHandlingClose = false; 
+    private PlayerMiniMap playerMiniMap;
 
     [Header("끝난 후 나올 대사 설정")]
     [SerializeField] private Puzzle_01_02_DialogueManager dialogueManager;
@@ -30,6 +31,7 @@ public class InteractableObject : MonoBehaviour
     void Awake()
     {
         player = FindObjectOfType<PlayerMovement>();
+        playerMiniMap = FindObjectOfType<PlayerMiniMap>();
     }
     void Start()
     {
@@ -47,6 +49,7 @@ public class InteractableObject : MonoBehaviour
                 // 캔버스가 비활성화 상태이면 활성화
                 if (!canvas.gameObject.activeSelf)
                 {
+                    playerMiniMap.HideMiniMap();
                     canvas.gameObject.SetActive(true);
                     player.setCanMove(false);
                     onInteract?.Invoke(); // 연동된 외부 이벤트 실행
@@ -85,6 +88,7 @@ public class InteractableObject : MonoBehaviour
     public void CloseInteract() // 캔버스 닫기 위한 함수 (버튼에 연결)
     {
         if (canvas.gameObject.activeSelf) canvas.gameObject.SetActive(false);
+        playerMiniMap.ShowMiniMap();
         onClose?.Invoke();
     }
  
