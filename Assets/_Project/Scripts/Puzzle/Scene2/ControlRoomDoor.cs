@@ -71,7 +71,7 @@ public class ControlRoomDoor : MonoBehaviour
 
             if (!isDialogueRunning  && !firstDialogue.getHasDialogue())
             {
-                StartCoroutine(DoorDialogue());
+                StartCoroutine(DoorDialogue(firstDialogue));
             }
 
         }
@@ -83,7 +83,7 @@ public class ControlRoomDoor : MonoBehaviour
     }
 
     // 대사 출력 + 도어락 사이즈 및 위치 변경 
-    private IEnumerator DoorDialogue()
+    private IEnumerator DoorDialogue(DialogueSO dialogue)
     {
         isDialogueRunning = true;
         RectTransform canvasRect = doorLockCanvas.GetComponent<RectTransform>();
@@ -95,10 +95,10 @@ public class ControlRoomDoor : MonoBehaviour
         canvasRect.offsetMax = new Vector2(-7, 168);
 
         // 대사 시작
-        dialogueManager.DialogueStart(firstDialogue);
+        dialogueManager.DialogueStart(dialogue);
 
         // 대사가 끝날 때까지 기다리기
-        yield return new WaitUntil(() => firstDialogue.getHasDialogue());
+        yield return new WaitUntil(() => dialogue.getHasDialogue());
 
         // 대사 끝나면 원래 크기로 + ESC 글자 보이게
         escText.gameObject.SetActive(true);
@@ -112,9 +112,9 @@ public class ControlRoomDoor : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKey(KeyCode.E))
         {
             doorLockCanvas.gameObject.SetActive(false);
-            if (GameProgressData.hasOpenedControlRoomDoor && !lastDialogue.getHasDialogue())
+            if (GameProgressData.hasOpenedControlRoomDoor && lastDialogue.getHasDialogue())
             {
-                dialogueManager.DialogueStart(lastDialogue);
+                LoadNextScene();
             }
         }
     }
@@ -130,6 +130,7 @@ public class ControlRoomDoor : MonoBehaviour
             feedbackText.text = "인증이 완료되었습니다.";
             statusText.text ="열림";
             statusText.color = Color.blue;
+            StartCoroutine(DoorDialogue(lastDialogue));
         }
         else
         {
