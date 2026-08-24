@@ -19,8 +19,6 @@ public class Puzzle_CorridorPassword : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private string correctPassword = "35015";
 
-    private bool hasBeenOpen = false; // 오픈 여부 (get O)
-
     void Start()
     {
         MapKeyPad.gameObject.SetActive(false);
@@ -45,6 +43,7 @@ public class Puzzle_CorridorPassword : MonoBehaviour
             feedbackText.color = Color.white;
         }
     }
+    
     // 입력 도중 호출
     private void OnInputChanged(string currentText)
     {
@@ -70,7 +69,7 @@ public class Puzzle_CorridorPassword : MonoBehaviour
         if (inputPassword == correctPassword)
         {
             Map.gameObject.SetActive(true);
-            hasBeenOpen = true;
+            GameProgressData.hasOpenedMap = true;
         }
         else
         {
@@ -122,10 +121,7 @@ public class Puzzle_CorridorPassword : MonoBehaviour
         }
     }
   
-    public bool getHasBeenOpen()
-    {
-        return hasBeenOpen;
-    }
+   
 
 
 

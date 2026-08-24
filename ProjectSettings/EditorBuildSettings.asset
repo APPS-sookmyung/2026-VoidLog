@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/_Project/Scenes/Opening.unity
     guid: da4ad2de58c831444932d51f2b0d21a5
   - enabled: 1
-    path: Assets/_Project/Scenes/Scene_01_02_Workshop.unity
+    path: Assets/_Project/Scenes/Scene_01_Workshop.unity
     guid: db87f79ed007c4d458b5e368a7d04f88
   - enabled: 1
     path: Assets/_Project/Scenes/Scene_03_Control.unity
@@ -26,5 +26,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Project/Scenes/Scene_06_Hangar.unity
     guid: fec23003e0a44dc46a3821c957fd225d
+  - enabled: 1
+    path: Assets/_Project/Scenes/Scene_02_ControlRoomEntrance.unity
+    guid: 87d2f4bf6b60cf04a89955208ad609a9
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
