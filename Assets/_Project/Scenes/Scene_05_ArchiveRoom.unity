@@ -1745,7 +1745,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Scene5DialogueController
   sceneDialogueCSV: {fileID: 4900000, guid: 03bf6608dd1ee1e4bbc4732bf7ba6f0d, type: 3}
   targetPuzzle: {fileID: 1616744380}
-  playerMovement: {fileID: 329659559}
+  archiveRoomPuzzle: {fileID: 731232460}
+  nextRoomDoor: {fileID: 0}
 --- !u!1 &368367226
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,18 +16,43 @@ public class DialogueViewer : MonoBehaviour
     private Coroutine typingCoroutine;
     private string fullSentence;
 
+    private PlayerMovement playerMovement;
+
     private void Awake()
     {
+        EnsurePlayerReference();
+
         if (dialoguePanel != null)
             dialoguePanel.SetActive(false);
     }
 
-    public void OpenPanel() => dialoguePanel.SetActive(true);
-    public void ClosePanel() => dialoguePanel.SetActive(false);
+    private void EnsurePlayerReference()
+    {
+        if (playerMovement == null)
+        {
+            playerMovement = FindAnyObjectByType<PlayerMovement>();
+        }
+    }
 
+    // 대사창 열릴 때
+     public void OpenPanel()
+    {
+        if (dialoguePanel != null) dialoguePanel.SetActive(true);
+        // 대사창이 열리면 이동 차단
+        PlayerMovement.Instance?.setCanMove(false);
+    }
+
+    public void ClosePanel()
+    {
+        if (dialoguePanel != null) dialoguePanel.SetActive(false);
+        // 대사창이 닫히면 이동 허용
+        PlayerMovement.Instance?.setCanMove(true);
+    }
     public void ShowText(string speaker, string sentence)
     {
-        speakerText.text = speaker;
+        if (speakerText != null)
+            speakerText.text = speaker;
+
         fullSentence = sentence;
 
         if (typingCoroutine != null)
@@ -39,24 +64,28 @@ public class DialogueViewer : MonoBehaviour
     private IEnumerator TypeSentenceCoroutine(string sentence)
     {
         IsTyping = true;
-        dialogueText.text = "";
+        if (dialogueText != null)
+            dialogueText.text = "";
 
         foreach (char letter in sentence)
         {
-            dialogueText.text += letter;
+            if (dialogueText != null)
+                dialogueText.text += letter;
+
             yield return new WaitForSeconds(typingSpeed);
         }
 
         IsTyping = false;
     }
 
-    /// 타이핑 중일 때 누르면 즉시 전체 문장 표출 (스킵)
     public void SkipTyping()
     {
         if (typingCoroutine != null)
             StopCoroutine(typingCoroutine);
 
-        dialogueText.text = fullSentence;
+        if (dialogueText != null)
+            dialogueText.text = fullSentence;
+
         IsTyping = false;
     }
 }

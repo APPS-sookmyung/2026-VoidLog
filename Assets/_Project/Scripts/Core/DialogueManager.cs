@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class DialogueManager : MonoBehaviour
     private int currentIndex = 0;
     private bool isDialogueRunning = false;
     private Action onDialogueComplete;
+    private bool canSkipThisFrame = false;
 
     private void Awake()
     {
@@ -35,9 +37,9 @@ public class DialogueManager : MonoBehaviour
 
     private void Update()
     {
-        if (!isDialogueRunning) return;
+        // 대사 진행 중이 아니거나, 첫 프레임 입력 방지 상태면 무시
+        if (!isDialogueRunning || !canSkipThisFrame) return;
 
-        // 클릭이나 Spacebar 입력 시
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
         {
             HandlePlayerInput();
@@ -75,10 +77,9 @@ public class DialogueManager : MonoBehaviour
                 string text = cols[3].Trim().Trim('"').Replace("\\n", "\n");
                 
                 // 5번째(Portrait), 6번째(SoundEffect) 열은 비어있을 수도 있으므로 안전하게 추출
-                string portrait = cols.Length > 4 ? cols[4].Trim() : "";
-                string soundEffect = cols.Length > 5 ? cols[5].Trim() : "";
+                string portrait = cols.Length > 4 ? cols[4].Trim().Trim('"') : "";
+                string soundEffect = cols.Length > 5 ? cols[5].Trim().Trim('"') : "";
 
-                // DialogueData 생성자에 맞춰 주입
                 DialogueData data = new DialogueData(groupId, order, speaker, text, portrait, soundEffect);
 
                 if (!dialogueDatabase.ContainsKey(groupId))
@@ -116,6 +117,7 @@ public class DialogueManager : MonoBehaviour
         onDialogueComplete = onComplete;
         currentIndex = 0;
         isDialogueRunning = true;
+        canSkipThisFrame = false; // 대사창 열린 즉시 클릭 넘김 차단
 
         if (viewer != null)
         {
@@ -126,17 +128,23 @@ public class DialogueManager : MonoBehaviour
         {
             Debug.LogError("[DialogueManager] DialogueViewer 컴포넌트가 연결되어 있지 않습니다.");
         }
+
+        StopAllCoroutines();
+        StartCoroutine(EnableDialogueInputNextFrame());
+    }
+
+    private IEnumerator EnableDialogueInputNextFrame()
+    {
+        yield return null; // 1프레임 뒤부터 입력 활성화
+        canSkipThisFrame = true;
     }
 
     private void DisplayCurrentLine()
     {
+        if (viewer == null || currentIndex >= activeDialogueGroup.Count) return;
+
         var line = activeDialogueGroup[currentIndex];
-        
-        // DialogueData.Text 필드 참조
-        if (viewer != null)
-        {
-            viewer.ShowText(line.Speaker, line.Text);
-        }
+        viewer.ShowText(line.Speaker, line.Text);
     }
 
     private void HandlePlayerInput()
@@ -165,6 +173,7 @@ public class DialogueManager : MonoBehaviour
     private void EndDialogue()
     {
         isDialogueRunning = false;
+        canSkipThisFrame = false;
         
         if (viewer != null)
         {
