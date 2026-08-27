@@ -950,8 +950,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89f676aef8ec735488bda61b206a4bbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MazeItemRandomPlacer
-  mazeCsv: {fileID: 4900000, guid: 0db567c2fbca00f4fb74be066b69d5f9, type: 3}
-  cellSize: 1.5
   items:
   - {fileID: 879928832}
   - {fileID: 5772696}
@@ -1418,8 +1416,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MazeBuilder2D
   mazeCsv: {fileID: 4900000, guid: 0db567c2fbca00f4fb74be066b69d5f9, type: 3}
   wallPrefab: {fileID: 3780684107928246753, guid: 0994c81544a2aec4d978bf16a7c041a4, type: 3}
-  cellSize: 1.5
   wallParent: {fileID: 419132531}
+  pathSize: 2
+  wallThickness: 0.5
 --- !u!4 &983138242
 Transform:
   m_ObjectHideFlags: 0
@@ -1427,6 +1426,55 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 983138240}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1008334779
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1008334781}
+  - component: {fileID: 1008334780}
+  m_Layer: 0
+  m_Name: MazeAutoLayout
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1008334780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1008334779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 940f1c73bc3d0ca428ff36a43128a43d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MazeAutoLayout
+  player: {fileID: 1110047367}
+  mainCamera: {fileID: 1561610462}
+  exitBlocker: {fileID: 224011643}
+  exitSuccessTrigger: {fileID: 1586459516}
+  cameraPadding: 1.08
+--- !u!4 &1008334781
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1008334779}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -1805,6 +1853,7 @@ GameObject:
   - component: {fileID: 1586459518}
   - component: {fileID: 1586459517}
   - component: {fileID: 1586459516}
+  - component: {fileID: 1586459519}
   m_Layer: 0
   m_Name: SuccessTrigger
   m_TagString: Untagged
@@ -1932,6 +1981,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2069759020}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1586459519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1586459515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c3d855bf8efde544a793b080b7653e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MazeExitGate
+  physicalBlocker: {fileID: 224011643}
 --- !u!1001 &1872360756
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2130,7 +2192,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2069759020}
-  - component: {fileID: 2069759019}
   m_Layer: 0
   m_Name: MazeExitGate
   m_TagString: Untagged
@@ -2138,20 +2199,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2069759019
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2069759018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c3d855bf8efde544a793b080b7653e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ExitGate2D
-  physicalBlocker: {fileID: 224011643}
-  successTrigger: {fileID: 1586459516}
 --- !u!4 &2069759020
 Transform:
   m_ObjectHideFlags: 0
@@ -2188,3 +2235,4 @@ SceneRoots:
   - {fileID: 2069759020}
   - {fileID: 783590931}
   - {fileID: 720490539}
+  - {fileID: 1008334781}
