@@ -1,9 +1,9 @@
 using UnityEngine;
 
-// 기본 상하좌우 이동. CanMove가 false면 입력을 무시하고 정지한다
-// CanMove()를 통해 주인공 동작 불가능/가능 제어
 public class PlayerMovement : MonoBehaviour
 {
+    public static PlayerMovement Instance { get; private set; }
+
     private bool CanMove = true; // 이동 기본 설정 
     [SerializeField] private float moveSpeed = 3f; // 기본 스피드 값
 
@@ -11,10 +11,26 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 moveInput; // Update에서 받은 입력을 저장할 변수
 
     public bool getCanMove() { return CanMove; } // 현재 이동 가능 여부 확인
-    public void setCanMove(bool state) { CanMove = state; } // 이동 가능 여부 변경
+    
+    public void setCanMove(bool state) 
+    { 
+        CanMove = state; 
+    
+        // 이동 불가로 전환되는 즉시 입력값과 물리 속도를 0으로 강제 초기화
+        if (!CanMove)
+        {
+            moveInput = Vector2.zero;
+            if (rb != null)
+            {
+                rb.linearVelocity = Vector2.zero;
+                rb.Sleep();
+            }
+        }
+    }
 
     private void Awake() 
     {
+        Instance = this;
         rb = GetComponent<Rigidbody2D>();
     }
 
