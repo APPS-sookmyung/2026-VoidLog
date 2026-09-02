@@ -119,81 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &125334899
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 125334900}
-  - component: {fileID: 125334902}
-  - component: {fileID: 125334901}
-  m_Layer: 5
-  m_Name: BalckBackground
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &125334900
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 125334899}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 440299580}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -3.7159424}
-  m_SizeDelta: {x: 1920.7965, y: 1077.2847}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &125334901
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 125334899}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &125334902
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 125334899}
-  m_CullTransparentMesh: 1
 --- !u!1 &313622978
 GameObject:
   m_ObjectHideFlags: 0
@@ -241,13 +166,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VoidLog.Core.OpeningStepManager
   steps:
   - stepName: 1
-    duration: 1
+    duration: 8
     onStepStart:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1928327144}
-          m_TargetAssemblyTypeName: VoidLog.UI.TypewriterText, Assembly-CSharp
-          m_MethodName: ShowPreset
+        - m_Target: {fileID: 1558659388}
+          m_TargetAssemblyTypeName: VoidLog.Core.AudioTrigger, Assembly-CSharp
+          m_MethodName: Play
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: mechanical_hum
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1558659388}
+          m_TargetAssemblyTypeName: VoidLog.Core.AudioTrigger, Assembly-CSharp
+          m_MethodName: Play
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: breathing
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1928327143}
+          m_TargetAssemblyTypeName: VoidLog.UI.TypewriterDialogueQueue, Assembly-CSharp
+          m_MethodName: StartSequence
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -257,14 +206,9 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - stepName: 2
-    duration: 1.5
-    onStepStart:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1928327144}
-          m_TargetAssemblyTypeName: VoidLog.UI.TypewriterText, Assembly-CSharp
-          m_MethodName: Clear
+        - m_Target: {fileID: 1558659390}
+          m_TargetAssemblyTypeName: VoidLog.Core.RandomAmbientTrigger, Assembly-CSharp
+          m_MethodName: StartLoop
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -286,113 +230,31 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 1444108864}
-          m_TargetAssemblyTypeName: VoidLog.UI.CrossfadeImage, Assembly-CSharp
-          m_MethodName: SetSprite
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: -6776651078433459295, guid: f91a033b4c5e19d4c8e7162570e6a876, type: 3}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - stepName: 3
-    duration: 2
+  - stepName: 2-1
+    duration: 3
     onStepStart:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1444108864}
-          m_TargetAssemblyTypeName: VoidLog.UI.CrossfadeImage, Assembly-CSharp
-          m_MethodName: SetSprite
-          m_Mode: 2
+        - m_Target: {fileID: 1558659390}
+          m_TargetAssemblyTypeName: VoidLog.Core.RandomAmbientTrigger, Assembly-CSharp
+          m_MethodName: StopLoop
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: -4354248775225258120, guid: 2e536ffa464655d43af8f0786363d24e, type: 3}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - stepName: 4-1
-    duration: 1
-    onStepStart:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1444108864}
-          m_TargetAssemblyTypeName: VoidLog.UI.CrossfadeImage, Assembly-CSharp
-          m_MethodName: SetSprite
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: -1472079123896422100, guid: 5522ea5a6af58184ea1b9f566cb4cf07, type: 3}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - stepName: 4-2
-    duration: 1
-    onStepStart:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1444108864}
-          m_TargetAssemblyTypeName: VoidLog.UI.CrossfadeImage, Assembly-CSharp
-          m_MethodName: SetSprite
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 221707375465841917, guid: 1de48e2193dc0e941a76ab76c2409015, type: 3}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - stepName: 5
+  - stepName: 2-2
     duration: 4
     onStepStart:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1444108864}
-          m_TargetAssemblyTypeName: VoidLog.UI.CrossfadeImage, Assembly-CSharp
-          m_MethodName: SetSprite
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: -1403329924810827876, guid: 65b536cbd411c9f4d83e044fe6f0a565, type: 3}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 1554346999}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-        - m_Target: {fileID: 1104844567}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-        - m_Target: {fileID: 1044608477}
-          m_TargetAssemblyTypeName: VoidLog.UI.PopupText, Assembly-CSharp
-          m_MethodName: ShowPreset
+        - m_Target: {fileID: 995083359}
+          m_TargetAssemblyTypeName: VoidLog.UI.Opeing_ShadowHandMover, Assembly-CSharp
+          m_MethodName: StartJitter
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -402,26 +264,9 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - stepName: 6
-    duration: 1.5
-    onStepStart:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1554346999}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 1044608477}
-          m_TargetAssemblyTypeName: VoidLog.UI.PopupText, Assembly-CSharp
-          m_MethodName: Clear
+        - m_Target: {fileID: 1044608476}
+          m_TargetAssemblyTypeName: VoidLog.UI.TypewriterDialogueQueue, Assembly-CSharp
+          m_MethodName: StartSequence
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -431,30 +276,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 1444108864}
-          m_TargetAssemblyTypeName: VoidLog.UI.CrossfadeImage, Assembly-CSharp
-          m_MethodName: SetSprite
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 2520725204602466150, guid: 0bd0b046f44e0104c8d1395a7fe1fed2, type: 3}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - stepName: 7
-    duration: 1.5
+  - stepName: 3-1
+    duration: 2
     onStepStart:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1444108864}
-          m_TargetAssemblyTypeName: VoidLog.UI.CrossfadeImage, Assembly-CSharp
-          m_MethodName: SetSprite
-          m_Mode: 2
+        - m_Target: {fileID: 995083359}
+          m_TargetAssemblyTypeName: VoidLog.UI.Opeing_ShadowHandMover, Assembly-CSharp
+          m_MethodName: StopJitter
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: -1186050718587702302, guid: 26ce0e0aaaa65d242b625ff2397d3689, type: 3}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -472,14 +305,14 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - stepName: 8
-    duration: 1.5
+  - stepName: 3-2
+    duration: 2.5
     onStepStart:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 503815011}
-          m_TargetAssemblyTypeName: VoidLog.UI.VentLightFlicker, Assembly-CSharp
-          m_MethodName: StopFlicker
+        - m_Target: {fileID: 995083359}
+          m_TargetAssemblyTypeName: VoidLog.UI.Opeing_ShadowHandMover, Assembly-CSharp
+          m_MethodName: MoveToVent
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -489,222 +322,110 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 1444108864}
-          m_TargetAssemblyTypeName: VoidLog.UI.CrossfadeImage, Assembly-CSharp
-          m_MethodName: SetSprite
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 4739799784139746704, guid: 874a1211fe2695a47ab5c86fe82d9865, type: 3}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - stepName: 9
-    duration: 1.5
-    onStepStart:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1444108864}
-          m_TargetAssemblyTypeName: VoidLog.UI.CrossfadeImage, Assembly-CSharp
-          m_MethodName: SetSprite
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 7155448715962876708, guid: e0f9656c7f2af0d4c8df653e39bea057, type: 3}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - stepName: 10
-    duration: 1
-    onStepStart:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1444108864}
-          m_TargetAssemblyTypeName: VoidLog.UI.CrossfadeImage, Assembly-CSharp
-          m_MethodName: SetSprite
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: -4559867413865078564, guid: 377fd19fa6d58a44ea38d16fe4fca626, type: 3}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - stepName: 11
-    duration: 1
-    onStepStart:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1444108864}
-          m_TargetAssemblyTypeName: VoidLog.UI.CrossfadeImage, Assembly-CSharp
-          m_MethodName: SetSprite
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: -4778232984324254815, guid: 40cec9df8c073d04095f4020d437b555, type: 3}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - stepName: 12
-    duration: 1
-    onStepStart:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1444108864}
-          m_TargetAssemblyTypeName: VoidLog.UI.CrossfadeImage, Assembly-CSharp
-          m_MethodName: SetSprite
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 1927891622750710110, guid: a292ef2d963ebbd4bb69f2a4fc2fd1ab, type: 3}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - stepName: 13
+  - stepName: 3-3
     duration: 2
     onStepStart:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1444108864}
-          m_TargetAssemblyTypeName: VoidLog.UI.CrossfadeImage, Assembly-CSharp
-          m_MethodName: SetSprite
-          m_Mode: 2
+        - m_Target: {fileID: 1558659388}
+          m_TargetAssemblyTypeName: VoidLog.Core.AudioTrigger, Assembly-CSharp
+          m_MethodName: Play
+          m_Mode: 5
           m_Arguments:
-            m_ObjectArgument: {fileID: -7569615284833727976, guid: c5ef6bfc0e9719b4d8d2f53702970c8c, type: 3}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: metal_scrape
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1471248197}
+          m_TargetAssemblyTypeName: VoidLog.UI.TypewriterDialogueQueue, Assembly-CSharp
+          m_MethodName: StartSequence
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - stepName: 14
-    duration: 2.5
+  - stepName: 4
+    duration: 3
     onStepStart:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1444108864}
-          m_TargetAssemblyTypeName: VoidLog.UI.CrossfadeImage, Assembly-CSharp
-          m_MethodName: SetSprite
-          m_Mode: 2
+        - m_Target: {fileID: 1558659388}
+          m_TargetAssemblyTypeName: VoidLog.Core.AudioTrigger, Assembly-CSharp
+          m_MethodName: Play
+          m_Mode: 5
           m_Arguments:
-            m_ObjectArgument: {fileID: -8561494582200352931, guid: fcf5c35907c720e4a879286e43a73739, type: 3}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: calm_melody
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 671915426}
+          m_TargetAssemblyTypeName: VoidLog.UI.NotePopup, Assembly-CSharp
+          m_MethodName: Show
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - stepName: 15
-    duration: 1.5
+  - stepName: 5
+    duration: 3
     onStepStart:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1444108864}
-          m_TargetAssemblyTypeName: VoidLog.UI.CrossfadeImage, Assembly-CSharp
-          m_MethodName: SetSprite
-          m_Mode: 2
+        - m_Target: {fileID: 826580452}
+          m_TargetAssemblyTypeName: VoidLog.UI.ColorToneController, Assembly-CSharp
+          m_MethodName: TransitionToTone1
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 4244785763011009299, guid: 205b531c00e33844298cd59af759af77, type: 3}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - stepName: 16
-    duration: 1.5
+        - m_Target: {fileID: 1558659388}
+          m_TargetAssemblyTypeName: VoidLog.Core.AudioTrigger, Assembly-CSharp
+          m_MethodName: FadeOutAndStop
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: calm_melody
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1558659388}
+          m_TargetAssemblyTypeName: VoidLog.Core.AudioTrigger, Assembly-CSharp
+          m_MethodName: Play
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: resolve_melody
+            m_BoolArgument: 0
+          m_CallState: 2
+  - stepName: 6-1
+    duration: 0.5
     onStepStart:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1444108864}
-          m_TargetAssemblyTypeName: VoidLog.UI.CrossfadeImage, Assembly-CSharp
-          m_MethodName: SetSprite
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 5920997052081843013, guid: e907b4550184fe34db1134c1a42e542c, type: 3}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - stepName: 17
-    duration: 1.5
-    onStepStart:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1444108864}
-          m_TargetAssemblyTypeName: VoidLog.UI.CrossfadeImage, Assembly-CSharp
-          m_MethodName: SetSprite
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 7380692836314676995, guid: 4710ec5ea9c5f5a419839284827bdfde, type: 3}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - stepName: 18
-    duration: 2
-    onStepStart:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1444108864}
-          m_TargetAssemblyTypeName: VoidLog.UI.CrossfadeImage, Assembly-CSharp
-          m_MethodName: SetSprite
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 7470887042803633377, guid: c5b0e876d4302af4ea0ad5ec42ded94d, type: 3}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - stepName: 19
-    duration: 2
-    onStepStart:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1444108864}
-          m_TargetAssemblyTypeName: VoidLog.UI.CrossfadeImage, Assembly-CSharp
-          m_MethodName: SetSprite
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 8127540074258317617, guid: 688533103e932914d9b175496c13c3f3, type: 3}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - stepName: 20
-    duration: 1
-    onStepStart:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1444108864}
-          m_TargetAssemblyTypeName: VoidLog.UI.CrossfadeImage, Assembly-CSharp
-          m_MethodName: SetSprite
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 2849940459797198542, guid: 8a96b238bdb009b44a9b6503798f6dbc, type: 3}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
         - m_Target: {fileID: 320532367}
           m_TargetAssemblyTypeName: VoidLog.UI.GlitchController, Assembly-CSharp
           m_MethodName: TriggerGlitchEvent
@@ -717,12 +438,43 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - stepName: 21-1
-    duration: 0.5
-    onStepStart:
-      m_PersistentCalls:
-        m_Calls: []
-  - stepName: 21-2
+        - m_Target: {fileID: 1558659388}
+          m_TargetAssemblyTypeName: VoidLog.Core.AudioTrigger, Assembly-CSharp
+          m_MethodName: Play
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: impact_hit
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1558659388}
+          m_TargetAssemblyTypeName: VoidLog.Core.AudioTrigger, Assembly-CSharp
+          m_MethodName: Play
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: alarm
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 542561658}
+          m_TargetAssemblyTypeName: VoidLog.UI.FadeController, Assembly-CSharp
+          m_MethodName: FadeOutEvent
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - stepName: 6-2
     duration: 2
     onStepStart:
       m_PersistentCalls:
@@ -736,7 +488,7 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: 
+            m_StringArgument: alarm
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 1317331952}
@@ -817,7 +569,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000061035, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &320532365
@@ -833,8 +585,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_Color: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 0}
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1061,21 +813,19 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1444108861}
   - {fileID: 826580451}
   - {fileID: 320532364}
+  - {fileID: 503815008}
   - {fileID: 995083356}
   - {fileID: 1729674375}
-  - {fileID: 1444108861}
-  - {fileID: 503815008}
-  - {fileID: 542561657}
-  - {fileID: 125334900}
-  - {fileID: 1104844568}
   - {fileID: 1928327140}
-  - {fileID: 1554347000}
+  - {fileID: 1044608473}
   - {fileID: 1471248194}
+  - {fileID: 1104844568}
   - {fileID: 671915423}
   - {fileID: 1317331949}
-  - {fileID: 1157914248}
+  - {fileID: 542561657}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1118,8 +868,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 409.21, y: -199.19}
-  m_SizeDelta: {x: 123.5149, y: 110.5266}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &503815009
 MonoBehaviour:
@@ -1134,15 +884,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: -7065872474512112259, guid: 6a824aea64e2b684a9e8c75ae490c63c, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1247,7 +997,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -3585755948414558176, guid: 55dd21a43bc083741b874c118542cf1e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1300,8 +1050,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 9, y: -48}
-  m_SizeDelta: {x: 499, y: 537}
+  m_AnchoredPosition: {x: -22.2272, y: -19.2207}
+  m_SizeDelta: {x: 1063.4008, y: 746.2867}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &671915424
 MonoBehaviour:
@@ -1433,7 +1183,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &826580452
 MonoBehaviour:
@@ -1468,13 +1218,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -3585755948414558176, guid: 55dd21a43bc083741b874c118542cf1e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1527,8 +1277,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_AnchoredPosition: {x: 28, y: -215}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &995083357
 MonoBehaviour:
@@ -1597,7 +1347,6 @@ GameObject:
   - component: {fileID: 1044608475}
   - component: {fileID: 1044608474}
   - component: {fileID: 1044608476}
-  - component: {fileID: 1044608477}
   m_Layer: 5
   m_Name: DialogueText_System
   m_TagString: Untagged
@@ -1612,17 +1361,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1044608472}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1554347000}
+  m_Father: {fileID: 440299580}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -30}
-  m_SizeDelta: {x: 600, y: 280}
+  m_AnchoredPosition: {x: 21, y: 144}
+  m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1044608474
 MonoBehaviour:
@@ -1644,17 +1393,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: 456
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: c7961bb0ddae8164f9d00aafd4f6dd86, type: 2}
-  m_sharedMaterial: {fileID: -5471773191639391498, guid: c7961bb0ddae8164f9d00aafd4f6dd86, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1671,8 +1420,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45
-  m_fontSizeBase: 45
+  m_fontSize: 36
+  m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1731,14 +1480,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1044608472}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd6cc9533e18e8f41b1dff7039deba1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VoidLog.UI.TypewriterDialogueQueue
   targetText: {fileID: 1044608474}
-  lines:
-  - 678
+  lines: []
   charDelay: 0.05
   punctuationExtraDelay: 0.15
   useMouseClick: 1
@@ -1749,23 +1497,6 @@ MonoBehaviour:
   onAllLinesComplete:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1044608477
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1044608472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ea9102ef6af0ea4fab66220fd52ec43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::VoidLog.UI.PopupText
-  targetText: {fileID: 1044608474}
-  textKey: 
-  presetLine: "[SUBJECT: #902]\r\n[STATUS: \uC911\uC99D \uC6B0\uC6B8\uC99D \n      
-    / \uD68C\uD53C\uC131 \uC778\uACA9 \uC7A5\uC560]\r\n[WARNING: \uC678\uBD80 \uC811\uCD09
-    \n        \uCC28\uB2E8 \uC0C1\uD0DC \uC720\uC9C0 \uC911]"
 --- !u!1 &1104844567
 GameObject:
   m_ObjectHideFlags: 0
@@ -1783,7 +1514,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1104844568
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1800,8 +1531,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -467.27, y: 309}
-  m_SizeDelta: {x: 383.4573, y: 132}
+  m_AnchoredPosition: {x: -432, y: 288}
+  m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1104844569
 MonoBehaviour:
@@ -1823,17 +1554,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 2126
+  m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: c7961bb0ddae8164f9d00aafd4f6dd86, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1850,8 +1581,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 70
-  m_fontSizeBase: 70
+  m_fontSize: 36
+  m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1892,7 +1623,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1104844570
@@ -1902,81 +1633,6 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1104844567}
-  m_CullTransparentMesh: 1
---- !u!1 &1157914247
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1157914248}
-  - component: {fileID: 1157914250}
-  - component: {fileID: 1157914249}
-  m_Layer: 5
-  m_Name: Image
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &1157914248
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1157914247}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 440299580}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.6495361, y: -4.4969482}
-  m_SizeDelta: {x: 1911.6003, y: 1078.6377}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1157914249
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1157914247}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: -1403329924810827876, guid: 65b536cbd411c9f4d83e044fe6f0a565, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1157914250
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1157914247}
   m_CullTransparentMesh: 1
 --- !u!1 &1229377582
 GameObject:
@@ -2082,7 +1738,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_SizeDelta: {x: 594.203, y: 530.0517}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1317331950
 MonoBehaviour:
@@ -2151,7 +1807,6 @@ GameObject:
   - component: {fileID: 1444108861}
   - component: {fileID: 1444108863}
   - component: {fileID: 1444108862}
-  - component: {fileID: 1444108864}
   m_Layer: 5
   m_Name: RoomBackground
   m_TagString: Untagged
@@ -2173,10 +1828,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 440299580}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000061035156, y: -3.7158813}
-  m_SizeDelta: {x: 1920.7965, y: 1077.2847}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 1.1618652}
+  m_SizeDelta: {x: 0, y: 2.323761}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1444108862
 MonoBehaviour:
@@ -2191,14 +1846,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7686275, g: 0.7686275, b: 0.7686275, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 2679083344939945087, guid: b60359c2634ec354f8cdb611155709c9, type: 3}
+  m_Sprite: {fileID: -3572254825769260629, guid: 3d4fc14479e7bb84aa9e384ab169d075, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2216,23 +1871,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1444108860}
   m_CullTransparentMesh: 1
---- !u!114 &1444108864
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1444108860}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad48ba0efd5d7fa4ebe364a5f8dbc7d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::VoidLog.UI.CrossfadeImage
-  mainImage: {fileID: 0}
-  defaultCrossfadeDuration: 0.5
-  zoomAmplitude: 0.035
-  motionPeriod: 10
-  panAmplitude: 14
 --- !u!1 &1471248193
 GameObject:
   m_ObjectHideFlags: 0
@@ -2268,7 +1906,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 761, y: -447}
+  m_AnchoredPosition: {x: 661, y: -410}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1471248195
@@ -2291,7 +1929,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: 789
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2300,8 +1938,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2384,106 +2022,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VoidLog.UI.TypewriterDialogueQueue
   targetText: {fileID: 1471248195}
-  lines:
-  - 456
+  lines: []
   charDelay: 0.05
   punctuationExtraDelay: 0.15
   useMouseClick: 1
   inputGuardTime: 0.15
   onLineComplete:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   onAllLinesComplete:
     m_PersistentCalls:
       m_Calls: []
---- !u!1 &1554346999
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1554347000}
-  - component: {fileID: 1554347002}
-  - component: {fileID: 1554347001}
-  m_Layer: 5
-  m_Name: System_Panel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1554347000
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1554346999}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1044608473}
-  m_Father: {fileID: 440299580}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 528.5, y: -152.73419}
-  m_SizeDelta: {x: 665, y: 361.4684}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1554347001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1554346999}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: -7687520923200844429, guid: 4bcb7008f2c792549a5a82a1d15fa3b7, type: 3}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1554347002
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1554346999}
-  m_CullTransparentMesh: 1
 --- !u!1 &1558659387
 GameObject:
   m_ObjectHideFlags: 0
@@ -2579,8 +2128,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78a2626d5c0618d409a18476651a731e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VoidLog.Core.RandomAmbientTrigger
-  audioTrigger: {fileID: 0}
-  glitchController: {fileID: 0}
+  audioTrigger: {fileID: 1558659388}
+  glitchController: {fileID: 320532367}
   soundIds: []
   minInterval: 3
   maxInterval: 8
@@ -2617,8 +2166,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 409.21, y: -199.19}
-  m_SizeDelta: {x: 123.51, y: 110.53}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1928327139
 GameObject:
@@ -2632,7 +2181,6 @@ GameObject:
   - component: {fileID: 1928327142}
   - component: {fileID: 1928327141}
   - component: {fileID: 1928327143}
-  - component: {fileID: 1928327144}
   m_Layer: 5
   m_Name: DialogueText_Monologue1
   m_TagString: Untagged
@@ -2656,8 +2204,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -304.5, y: 118}
-  m_SizeDelta: {x: 709, y: 50}
+  m_AnchoredPosition: {x: -262, y: 5}
+  m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1928327141
 MonoBehaviour:
@@ -2679,10 +2227,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: 123
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: c7961bb0ddae8164f9d00aafd4f6dd86, type: 2}
-  m_sharedMaterial: {fileID: -5471773191639391498, guid: c7961bb0ddae8164f9d00aafd4f6dd86, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2745,7 +2293,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -234.93921, w: 0}
+  m_margin: {x: 0, y: 0, z: -10.41687, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -2766,14 +2314,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1928327139}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd6cc9533e18e8f41b1dff7039deba1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VoidLog.UI.TypewriterDialogueQueue
   targetText: {fileID: 1928327141}
   lines:
-  - 123
+  - i love you
   charDelay: 0.3
   punctuationExtraDelay: 0.15
   useMouseClick: 1
@@ -2784,64 +2332,12 @@ MonoBehaviour:
   onAllLinesComplete:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1928327144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1928327139}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edc790b60a75f584ba91fbf27c894223, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::VoidLog.UI.TypewriterText
-  targetText: {fileID: 1928327141}
-  presetLine: "\uC18C\uB9AC\uAC00 \uB4E4\uB824\u2026 \n\uC800 \uB108\uBA38\uC5D0
-    \uB204\uAD70\uAC00 \uC788\uB2E4\uB294 \uC0AC\uC2E4\uB9CC\uC73C\uB85C\uB3C4 \uC228\uC774
-    \uC870\uC5EC\uC640. \n\uD0C0\uC778\uC758 \uC2DC\uC120, \uC874\uC7AC \uBAA8\uB4E0\uAC8C
-    \uB098\uB97C \uC9D3\uB204\uB974\uB294 \uAC70 \uAC19\uC544\u2026 \n\uC138\uC0C1\uC740
-    \uB108\uBB34 \uAC70\uB300\uD558\uACE0 \uB098\uB294 \uC774 \uC5B4\uB460 \uC18D\uC5D0\uC11C
-    \uC228\uC5B4 \n\uC228 \uC26C\uB294 \uAC83\uC870\uCC28 \uBC84\uAC70\uC6CC"
-  charDelay: 0.2
---- !u!1 &1953299085
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1953299086}
-  m_Layer: 0
-  m_Name: BackgoundLayer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1953299086
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1953299085}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.67769, y: -0.8017, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 360282214}
   - {fileID: 313622981}
-  - {fileID: 1953299086}
   - {fileID: 440299580}
   - {fileID: 1229377585}
   - {fileID: 1558659389}

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6a824aea64e2b684a9e8c75ae490c63c
+guid: 874a1211fe2695a47ab5c86fe82d9865
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7065872474512112259
-    second: VentLight_0
+      213: 4739799784139746704
+    second: Find1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,23 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: VentLight_0
+      name: Find1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 160
-        height: 160
+        width: 271
+        height: 152
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d75ce78cb6af0fd90800000000000000
-      internalID: -7065872474512112259
+      spriteID: 09d6f188ac627c140800000000000000
+      internalID: 4739799784139746704
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: ee586388bc0065f4784a05f5e7be9786
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      VentLight_0: -7065872474512112259
+      Find1_0: 4739799784139746704
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

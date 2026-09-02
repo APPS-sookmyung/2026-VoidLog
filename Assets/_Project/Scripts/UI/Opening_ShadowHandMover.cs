@@ -4,7 +4,7 @@ using UnityEngine;
 namespace VoidLog.UI
 {
 
-    public class Opeing_ShadowHandMover : MonoBehaviour
+    public class ShadowHandMover : MonoBehaviour
     {
         [SerializeField] private RectTransform handTransform;
 
