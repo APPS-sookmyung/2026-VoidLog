@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 4555288904932064553}
   - component: {fileID: 3824227982370905471}
   - component: {fileID: 2305555563612956146}
+  - component: {fileID: -3052610682615582567}
+  - component: {fileID: 6304350363204869584}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -171,3 +173,29 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &-3052610682615582567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6368661946343544543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 036b50589c540994690fcc1faf4cfd90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMiniMap
+  miniMap: {fileID: 0}
+  worldMap: {fileID: 0}
+--- !u!114 &6304350363204869584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6368661946343544543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c007da9cb7d7f940abc72d036e2b033, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSpawn

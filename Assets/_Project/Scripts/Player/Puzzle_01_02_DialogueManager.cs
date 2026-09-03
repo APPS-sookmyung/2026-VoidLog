@@ -4,7 +4,7 @@ using TMPro;
 
 
 //대사 출력 매니저 -> 대사 Data를 가져와 출력 및 버튼 클릭 스크립트
-public class Puzzle_01_02_Dialogue : MonoBehaviour
+public class Puzzle_01_02_DialogueManager : MonoBehaviour
 {
     [Header("UI References")]
     [SerializeField] private TextMeshProUGUI dialogueText; // 대사가 출력될 TMP
@@ -35,7 +35,6 @@ public class Puzzle_01_02_Dialogue : MonoBehaviour
        if (currentDialogue.getDialogues().Count > 0)
        {
             dialoguePanel.SetActive(true);
-            player.setCanMove(false);
 
             ShowCurrentDialogue();
         }
@@ -56,7 +55,6 @@ public class Puzzle_01_02_Dialogue : MonoBehaviour
          else // 전부 출력했다면
         {
             currentDialogue.setHasDialogue(true);
-            player.setCanMove(true);
             dialoguePanel.SetActive(false);
     }
        
@@ -67,6 +65,7 @@ public class Puzzle_01_02_Dialogue : MonoBehaviour
     {
         dialogueText.text = currentDialogue.getDialogues()[currentIndex];
     }
+
   
     
 }

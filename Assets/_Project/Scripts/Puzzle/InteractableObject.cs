@@ -1,90 +1,114 @@
 using System;
 using TMPro;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using System.Collections;
 
-// 플레이어와 상호작용하는 오브젝트(편지, 키패드, 모니터화면 등등)에 넣는 스크립트
-//콜라이더 구역 안에 플레이어 접근 시 [E] 클릭 텍스트 표시 
-// 이벤트 시작 및 종료 실행 > 종료 이후에 대사 출력
-
+// 프로젝트 전체에서 공용으로 사용되는 범용 상호작용 스크립트
 public class InteractableObject : MonoBehaviour
 {
     [Header("[E] 클릭 안내 문구")]
     [Tooltip("화면 하단에 띄울 문구 (ex. [E] 클릭)")]
-    [SerializeField] GameObject clickText; // 표시할 텍스트
+    [SerializeField] private GameObject clickText;
 
     [Header("클릭 후 뜰 이벤트")]
     [Tooltip("[E] 클릭 후 발생할 이벤트, 끝나고 발생할 이벤트")]
-    [SerializeField] Canvas canvas; // E 클릭 시 띄울 캔버스
-    [SerializeField] private UnityEvent onInteract;
-    [SerializeField] private UnityEvent onClose;
+    [SerializeField] private Canvas canvas;
+    [SerializeField] private UnityEvent onInteract; // 발생할 캔버스 속 시작 함수
+    [SerializeField] private UnityEvent onClose; // 발생할 캔버스 속 끝낼 때 함수
 
-    private bool isClick; // 클릭 가능 여부 (get O)
-
-    
+    private bool isClick; // 콜라이더 안에 있는지 확안용
+    private bool hasInteracted = false; // 이벤트 열람 여부 확인용
+    private PlayerMovement player;
+    private bool isHandlingClose = false; 
+    private PlayerMiniMap playerMiniMap;
 
     [Header("끝난 후 나올 대사 설정")]
-    [SerializeField] Puzzle_01_02_Dialogue DialogueManager; // 대사 출력 매니저
-    [SerializeField] private DialogueSO dialogueData; // 대사 데이터
+    [SerializeField] private Puzzle_01_02_DialogueManager dialogueManager;
+    [SerializeField] private DialogueSO dialogueData;
 
-    void Start() // 처음에 캔버스 가림
+    void Awake()
     {
-        clickText.gameObject.SetActive(false); 
-        canvas.gameObject.SetActive(false);
+        player = FindObjectOfType<PlayerMovement>();
+        playerMiniMap = FindObjectOfType<PlayerMiniMap>();
+    }
+    void Start()
+    {
+        if (clickText != null) clickText.SetActive(false); 
+        if (canvas != null) canvas.gameObject.SetActive(false);
     }
     
     void Update()
     {
-        // E클릭 가능한 범위면서 E클릭시 이벤트 발생
-        if (isClick && Input.GetKeyDown(KeyCode.E))
+        // E 키 입력 처리
+        if (Input.GetKeyDown(KeyCode.E) && isClick)
         {
-            canvas.gameObject.SetActive(true);
-            onInteract.Invoke();
+            if (canvas != null)
+            {
+                // 캔버스가 비활성화 상태이면 활성화
+                if (!canvas.gameObject.activeSelf)
+                {
+                    playerMiniMap.HideMiniMap();
+                    canvas.gameObject.SetActive(true);
+                    player.setCanMove(false);
+                    onInteract?.Invoke(); // 연동된 외부 이벤트 실행
+                    hasInteracted = true;
+                }
+                // 캔버스가 활성화 상태이면 비활성화 (닫기)
+                else
+                {
+                    CloseInteract();
+                }
+            }
         }
-        
+        if (canvas != null && !canvas.gameObject.activeSelf && hasInteracted && !isHandlingClose)
+        {
+            StartCoroutine(HandleInteractionClosed());
+        }
+    }
+    private IEnumerator HandleInteractionClosed() // 캔버스가 꺼진 '직후'에 한 번 실행되는 로직
+    {
+            isHandlingClose = true;
+            if (dialogueManager != null && dialogueData != null)
+            {
+                player.setCanMove(false);
+                dialogueData.setHasDialogue(false);
+                dialogueManager.DialogueStart(dialogueData);
+                // 대사가 끝날 때까지 기다리기
+                yield return new WaitUntil(() => dialogueData.getHasDialogue());
+
+            }
+            player.setCanMove(true);
+            // 한 번 실행 후 다시 실행되지 않도록 플래그를 false로 변경
+            hasInteracted = false;
+            isHandlingClose = false;
     }
 
-
-    //이벤트 끝내기 (이벤트 캔버스 바깥 버튼 클릭시 실행)
-    public void CloseInteract()
+    public void CloseInteract() // 캔버스 닫기 위한 함수 (버튼에 연결)
     {
-        canvas.gameObject.SetActive(false);
+        if (canvas.gameObject.activeSelf) canvas.gameObject.SetActive(false);
+        playerMiniMap.ShowMiniMap();
         onClose?.Invoke();
-
-        if (DialogueManager != null && dialogueData != null)
-        {
-            DialogueManager.DialogueStart(dialogueData);
-        }
-        
     }
  
     void OnTriggerEnter2D(Collider2D collision)
     {
-        //플레이어 접근 시 글자 표시 & 클릭 가능
-        if(collision.gameObject.tag == "Player")
+        if (collision.CompareTag("Player"))
         {
-            clickText.gameObject.SetActive(true);
+            if (clickText != null) clickText.SetActive(true);
             isClick = true;
         }
     }
+
     void OnTriggerExit2D(Collider2D collision)
     {
-        //플레이어 멀어질 시 글자 가림 & E 클릭 불가능
-        if(collision.gameObject.tag == "Player")
+        if (collision.CompareTag("Player"))
         {
-            clickText.gameObject.SetActive(false);
+            if (clickText != null) clickText.SetActive(false);
             isClick = false;
         }
-        
-        
     }
 
-    public bool getIsClick()
-    {
-        return isClick;
-    }
-
-
+    public bool getIsClick() { return isClick; }
 }

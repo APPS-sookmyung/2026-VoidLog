@@ -1,0 +1,15 @@
+﻿GroupID,Order,Speaker,Text,"Portrait
+(표정 스프라이트 이름)","SoundEffect
+(효과음)",Memo
+Enter,1,Player,여기가… 메인 기록실이구나…,,,
+Enter,2,Player,우주선을 타려면 격납고로 가야해.,,,
+Enter,3,Player,......,,,
+Enter,4,Player,이쪽이 격납고로 가는 문인가봐.,,,
+Enter,5,Player,잠겨있네…,,,
+Enter,6,Player,이제 격납고로 가서 진짜 우주선을 타고 탈출하는 일만 남았는데…,,,
+Enter,7,Player,"잠깐, 문 옆의 단말기에 마스터키 입력창이 떠 있어.\n누군가가 남긴 편지에 힌트가 있을 거야.",,,
+PuzzleClear,1,System,[인증 완료: 보안 권한이 승인되었습니다.],,,
+PuzzleClear,2,System,[시스템: 메인 기록실과 우주선 격납고 간의 비상 통로가 개방되었습니다.],,,
+PuzzleClear,3,Player,그래. 곧 탈출이야.,,,
+PuzzleClear,4,Player,조금만 더 힘내보자.,,,
+PuzzleLocked,1,Player,편지와 기록들을 잘 살펴보자.,,,
