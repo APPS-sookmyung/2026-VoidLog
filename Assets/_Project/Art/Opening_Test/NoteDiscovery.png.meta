@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6a824aea64e2b684a9e8c75ae490c63c
+guid: 7497a967e3030f94c92d40fad91e7a68
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7065872474512112259
-    second: VentLight_0
+      213: 1897245216536284935
+    second: NoteDiscovery_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,23 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: VentLight_0
+      name: NoteDiscovery_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 160
-        height: 160
+        width: 700
+        height: 460
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d75ce78cb6af0fd90800000000000000
-      internalID: -7065872474512112259
+      spriteID: 70f447fe87e545a10800000000000000
+      internalID: 1897245216536284935
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: ee586388bc0065f4784a05f5e7be9786
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      VentLight_0: -7065872474512112259
+      NoteDiscovery_0: 1897245216536284935
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
