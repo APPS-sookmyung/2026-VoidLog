@@ -1,79 +1,70 @@
-using System;
-using NUnit.Framework;
 using UnityEngine;
 using TMPro;
-using System.Collections;
-using UnityEngine.SceneManagement; // 씬 전환을 위해 반드시 필요!
+using UnityEngine.SceneManagement;
 
-//퍼즐2 도어락 스크립트
 public class ControlRoomDoor : MonoBehaviour
 {
     [Header("대사")]
-    [SerializeField] private Puzzle_01_02_DialogueManager dialogueManager;
-    [SerializeField] private DialogueSO firstDialogue;
-    [SerializeField] private DialogueSO lastDialogue;
-
+    [SerializeField] private Scene2DialogueController dialogueController;
 
     [Header("도어락")]
-    [SerializeField] Canvas doorLockCanvas; // 도어락 캔버스 
-    [SerializeField] TextMeshProUGUI escText; // ESC 창닫기 글자
+    [SerializeField] private Canvas doorLockCanvas;
+    [SerializeField] private TextMeshProUGUI escText;
 
     [Header("Settings")]
     [SerializeField] private string correctPassword = "123456789";
-    
-    [SerializeField] private TextMeshProUGUI feedbackText; // 안내 및 오답 알림용 텍스트
-    [SerializeField] private TextMeshProUGUI statusText; // 상태 확인용 텍스트
+    [SerializeField] private TextMeshProUGUI feedbackText;
+    [SerializeField] private TextMeshProUGUI statusText;
+
     [Header("이동할 씬 설정")]
-    [Tooltip("Build Settings에 등록된 이동하고자 하는 씬의 정확한 이름")]
     [SerializeField] private string nextSceneName;
 
-    private string passwordInput; // 플레이어 정답 저장 변수
-    private bool isDialogueRunning; // 중복 생성 방지
+    private string passwordInput = "";
+    private bool isDialogueRunning;
+    private bool hasSeenFirstDialogue;
 
-    void Start()
+    private void Start()
     {
         doorLockCanvas.gameObject.SetActive(false);
-        lastDialogue.setHasDialogue(false);
     }
-    void Update()
+
+    private void Update()
     {
-        if (!GameProgressData.hasOpenedControlRoomDoor && doorLockCanvas.gameObject.activeSelf) 
-        {   // 오픈 못한 상태에서 안내용 텍스트
-            if (feedbackText != null)
+        if (!GameProgressData.hasOpenedControlRoomDoor &&
+            doorLockCanvas.gameObject.activeSelf)
+        {
+            if (passwordInput != "")
             {
-                if(passwordInput != "")
-                {
-                    feedbackText.color = Color.white;
-                    feedbackText.text = "입력 중...";
-                }
+                feedbackText.color = Color.white;
+                feedbackText.text = "입력 중...";
             }
-            if(passwordInput.Length == 9)
+
+            if (passwordInput.Length == 9)
             {
                 OnSubmitPassword(passwordInput);
             }
-
         }
-        if (!doorLockCanvas.gameObject.activeSelf)
+
+        if (doorLockCanvas.gameObject.activeSelf)
         {
-            CloseDoor(); // ESC -> 창 닫기    
+            CloseDoor();
         }
     }
 
-    // 처음 도어락 열었을 때 - 비밀번호 초기화 및 상태와 안내 문구, 대사 출력
-    public void DoorCheck() 
+    public void DoorCheck()
     {
         if (!GameProgressData.hasOpenedControlRoomDoor)
         {
-            passwordInput = ""; //비밀번호 입력 초기화
+            passwordInput = "";
+
             statusText.text = "잠김";
             feedbackText.text = "일반 사원은 접근할 수 없습니다.";
-            feedbackText.color = Color.white;  
+            feedbackText.color = Color.white;
 
-            if (!isDialogueRunning  && !firstDialogue.getHasDialogue())
+            if (!hasSeenFirstDialogue && !isDialogueRunning)
             {
-                StartCoroutine(DoorDialogue(firstDialogue));
+                ShowFirstDialogue();
             }
-
         }
         else
         {
@@ -82,55 +73,52 @@ public class ControlRoomDoor : MonoBehaviour
         }
     }
 
-    // 대사 출력 + 도어락 사이즈 및 위치 변경 
-    private IEnumerator DoorDialogue(DialogueSO dialogue)
+    private void ShowFirstDialogue()
     {
         isDialogueRunning = true;
-        RectTransform canvasRect = doorLockCanvas.GetComponent<RectTransform>();
+        hasSeenFirstDialogue = true;
 
-        // 도어락 UI 작게 + ESC 글자 안보이게
-        escText.gameObject.SetActive(false);
-        doorLockCanvas.transform.localScale = new Vector3(0.74f, 0.74f, 0.74f);
-        canvasRect.offsetMin = new Vector2(-7, 168);
-        canvasRect.offsetMax = new Vector2(-7, 168);
+        // 도어락 작게
+        SetDoorLockDialogueMode(true);
 
-        // 대사 시작
-        dialogueManager.DialogueStart(dialogue);
-
-        // 대사가 끝날 때까지 기다리기
-        yield return new WaitUntil(() => dialogue.getHasDialogue());
-
-        // 대사 끝나면 원래 크기로 + ESC 글자 보이게
-        escText.gameObject.SetActive(true);
-        doorLockCanvas.transform.localScale = Vector3.one;
-        canvasRect.offsetMin = Vector2.zero;
-        canvasRect.offsetMax = Vector2.zero;
-        isDialogueRunning = false;
-    }
-    public void CloseDoor() // ESC 창 닫기
-    {
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKey(KeyCode.E))
+        dialogueController.FirstDoorDialogue(() =>
         {
-            doorLockCanvas.gameObject.SetActive(false);
-            if (GameProgressData.hasOpenedControlRoomDoor && lastDialogue.getHasDialogue())
-            {
-                LoadNextScene();
-            }
-        }
+            // 대사 끝남
+            SetDoorLockDialogueMode(false);
+
+            isDialogueRunning = false;
+        });
+    }
+    private void ShowClearDialogue()
+    {
+        isDialogueRunning = true;
+
+        SetDoorLockDialogueMode(true);
+
+        dialogueController.DoorClearDialogue(() =>
+        {
+            SetDoorLockDialogueMode(false);
+
+            isDialogueRunning = false;
+        });
     }
 
-    // 정답 판정
     private void OnSubmitPassword(string inputPassword)
     {
-        // 비밀번호 검증
         if (inputPassword == correctPassword)
         {
             GameProgressData.hasOpenedControlRoomDoor = true;
+
             feedbackText.color = Color.white;
             feedbackText.text = "인증이 완료되었습니다.";
-            statusText.text ="열림";
+
+            statusText.text = "열림";
             statusText.color = Color.blue;
-            StartCoroutine(DoorDialogue(lastDialogue));
+
+            isDialogueRunning = true;
+            escText.gameObject.SetActive(false);
+
+            ShowClearDialogue();
         }
         else
         {
@@ -138,51 +126,84 @@ public class ControlRoomDoor : MonoBehaviour
         }
     }
 
-    // 오답 시 연출
     private void ShowError(string message)
     {
-        // onValueChanged를 실행시키지 않고 입력창만 비우기
         passwordInput = "";
-        if (feedbackText != null)
-        {
-            feedbackText.color = Color.red; // 빨간색으로 변경
-            feedbackText.text = message;
-        }
+
+        feedbackText.color = Color.red;
+        feedbackText.text = message;
     }
 
-
-    // 초기화 버튼
-    public void DeletePasswordNumber() 
+    public void DeletePasswordNumber()
     {
-        if (passwordInput.Length >= 0 && !GameProgressData.hasOpenedControlRoomDoor)
+        if (!GameProgressData.hasOpenedControlRoomDoor)
         {
-            passwordInput = ""; // 입력 초기화
+            passwordInput = "";
+
             feedbackText.text = "일반 사원은 접근할 수 없습니다.";
-            feedbackText.color = Color.white;  
+            feedbackText.color = Color.white;
         }
     }
-    
-    // 키패드 버튼 연결
+
     public void KeyPadClickButton(string number)
     {
-        if (passwordInput.Length < 10)
+        if (passwordInput.Length < 9 &&
+            !GameProgressData.hasOpenedControlRoomDoor)
         {
             passwordInput += number;
         }
     }
-  
 
-    // 씬 전환 실행 함수
+    public void CloseDoor()
+    {
+        if (isDialogueRunning)
+            return;
+
+        if (Input.GetKeyDown(KeyCode.Escape) ||
+            Input.GetKeyDown(KeyCode.E))
+        {
+            doorLockCanvas.gameObject.SetActive(false);
+
+            if (GameProgressData.hasOpenedControlRoomDoor)
+            {
+                LoadNextScene();
+            }
+        }
+    }
+
     public void LoadNextScene()
     {
         if (!string.IsNullOrEmpty(nextSceneName))
         {
             SceneManager.LoadScene(nextSceneName);
         }
+    }
+
+    // 대사중에 도어락 크기 축소
+    private void SetDoorLockDialogueMode(bool isDialogueMode)
+    {
+        RectTransform canvasRect = doorLockCanvas.GetComponent<RectTransform>();
+
+        if (isDialogueMode)
+        {
+            // 대사 중
+            escText.gameObject.SetActive(false);
+
+            doorLockCanvas.transform.localScale =
+                new Vector3(0.74f, 0.74f, 0.74f);
+
+            canvasRect.offsetMin = new Vector2(-7f, 168f);
+            canvasRect.offsetMax = new Vector2(-7f, 168f);
+        }
         else
         {
-            Debug.LogWarning("[SceneChangeInteractable] 이동할 씬 이름(nextSceneName)이 설정되지 않았습니다!");
+            // 대사 종료
+            escText.gameObject.SetActive(true);
+
+            doorLockCanvas.transform.localScale = Vector3.one;
+
+            canvasRect.offsetMin = Vector2.zero;
+            canvasRect.offsetMax = Vector2.zero;
         }
     }
-    
 }

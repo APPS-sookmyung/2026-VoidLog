@@ -12,7 +12,7 @@ public class DialogueManager : MonoBehaviour
 
     // GroupID별로 대사 목록을 보관하는 Dictionary
     private Dictionary<string, List<DialogueData>> dialogueDatabase = new Dictionary<string, List<DialogueData>>();
-    
+
     private List<DialogueData> activeDialogueGroup = new List<DialogueData>();
     private int currentIndex = 0;
     private bool isDialogueRunning = false;
@@ -75,7 +75,7 @@ public class DialogueManager : MonoBehaviour
                 string speaker = cols[2].Trim();
                 // 양끝의 큰따옴표("") 제거 및 줄바꿈(\n) 치환
                 string text = cols[3].Trim().Trim('"').Replace("\\n", "\n");
-                
+
                 // 5번째(Portrait), 6번째(SoundEffect) 열은 비어있을 수도 있으므로 안전하게 추출
                 string portrait = cols.Length > 4 ? cols[4].Trim().Trim('"') : "";
                 string soundEffect = cols.Length > 5 ? cols[5].Trim().Trim('"') : "";
@@ -174,12 +174,17 @@ public class DialogueManager : MonoBehaviour
     {
         isDialogueRunning = false;
         canSkipThisFrame = false;
-        
+
         if (viewer != null)
         {
             viewer.ClosePanel();
         }
 
         onDialogueComplete?.Invoke();
+    }
+
+    public bool getIsDialogueRunning()
+    {
+        return isDialogueRunning;
     }
 }

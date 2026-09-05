@@ -1,0 +1,8 @@
+﻿GroupID,Order,Speaker,Text,"Portrait
+(표정 스프라이트 이름)","SoundEffect
+(효과음)",Memo
+FirstLetterOpen,1,Player,모니터라면 작업실에 있는 걸 말하는 건가? 일단 가보자.,,,
+MoniterOpen,1,Player,첫 번째 열쇠라는 게 뭘까?,,,
+MoniterOpen,2,Player,… 그나저나 통제실로 가야할 것 같아.,,,
+MoniterOpen,3,Player,지도는 복도 게시판에서 본 기억이 있어.,,,
+MapLocked,1,Player,지도를 열람하고 넘어가야겠다.,,,

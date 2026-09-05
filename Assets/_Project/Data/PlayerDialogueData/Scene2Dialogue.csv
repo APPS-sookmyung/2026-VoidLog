@@ -1,0 +1,9 @@
+﻿GroupID,Order,Speaker,Text,"Portrait
+(표정 스프라이트 이름)","SoundEffect
+(효과음)",Memo
+DoorLockLocked,1,Player,카드키를 대보자.,,,
+DoorLockLocked,2,Player,열리지 않는다…,,,
+DoorLockLocked,3,Player,ID 카드키가 필요한 걸까? ,,,
+DoorLockLocked,4,Player,주변에 떨어져 있는 게 없는지 더 둘러보자.,,,
+DoorLClear,1,Player,카드키 없이 문이 열렸어... ,,,
+DoorLClear,2,Player,벽에 이런 걸 숨겨두다니. 회사가 보여주는 게 전부가 아니었어.  ,,,
