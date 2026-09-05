@@ -213,12 +213,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 100
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 5525604288434156929, guid: b689b26b810dd734cacee29380a40096, type: 3}
+  m_Sprite: {fileID: -2735057326762903800, guid: b4ef2c869b090504dacb5c3707e6e8a7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2.24, y: 2.5266666}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -237,7 +237,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   moveSpeed: 5
   animator: {fileID: 5894347768744004537}
-  spriteRenderer: {fileID: 5690028084034785610}
 --- !u!70 &3824227982370905471
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
