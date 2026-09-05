@@ -42,6 +42,11 @@ public class InteractableObject : MonoBehaviour
         // E 키 입력 처리
         if (Input.GetKeyDown(KeyCode.E) && isClick)
         {
+            // 대사 출력 중이면 E 상호작용 금지
+            if (DialogueManager.Instance != null && DialogueManager.Instance.getIsDialogueRunning())
+            {
+                    return;
+            }
             if (canvas != null)
             {
                 // 캔버스가 비활성화 상태이면 활성화
