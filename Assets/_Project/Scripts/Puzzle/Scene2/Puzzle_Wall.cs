@@ -4,8 +4,13 @@ using UnityEngine;
 public class Puzzle_Wall : MonoBehaviour
 {
     [SerializeField] Canvas wall; // 벽 UI
+    private PlayerMovement playerMovement;
 
-    
+    void Awake()
+    {
+        playerMovement = FindObjectOfType<PlayerMovement>();
+    }
+
     void Start()
     {
         wall.gameObject.SetActive(false);
@@ -24,6 +29,7 @@ public class Puzzle_Wall : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             wall.gameObject.SetActive(false);
+            playerMovement.setCanMove(true);
         }
     }
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class ControlRoomDoor : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class ControlRoomDoor : MonoBehaviour
 
     [Header("도어락")]
     [SerializeField] private Canvas doorLockCanvas;
-    [SerializeField] private TextMeshProUGUI escText;
+
 
     [Header("Settings")]
     [SerializeField] private string correctPassword = "123456789";
@@ -43,11 +44,6 @@ public class ControlRoomDoor : MonoBehaviour
             {
                 OnSubmitPassword(passwordInput);
             }
-        }
-
-        if (doorLockCanvas.gameObject.activeSelf)
-        {
-            CloseDoor();
         }
     }
 
@@ -100,6 +96,8 @@ public class ControlRoomDoor : MonoBehaviour
             SetDoorLockDialogueMode(false);
 
             isDialogueRunning = false;
+
+            LoadNextScene();
         });
     }
 
@@ -116,7 +114,6 @@ public class ControlRoomDoor : MonoBehaviour
             statusText.color = Color.blue;
 
             isDialogueRunning = true;
-            escText.gameObject.SetActive(false);
 
             ShowClearDialogue();
         }
@@ -154,23 +151,6 @@ public class ControlRoomDoor : MonoBehaviour
         }
     }
 
-    public void CloseDoor()
-    {
-        if (isDialogueRunning)
-            return;
-
-        if (Input.GetKeyDown(KeyCode.Escape) ||
-            Input.GetKeyDown(KeyCode.E))
-        {
-            doorLockCanvas.gameObject.SetActive(false);
-
-            if (GameProgressData.hasOpenedControlRoomDoor)
-            {
-                LoadNextScene();
-            }
-        }
-    }
-
     public void LoadNextScene()
     {
         if (!string.IsNullOrEmpty(nextSceneName))
@@ -187,7 +167,6 @@ public class ControlRoomDoor : MonoBehaviour
         if (isDialogueMode)
         {
             // 대사 중
-            escText.gameObject.SetActive(false);
 
             doorLockCanvas.transform.localScale =
                 new Vector3(0.74f, 0.74f, 0.74f);
@@ -198,7 +177,6 @@ public class ControlRoomDoor : MonoBehaviour
         else
         {
             // 대사 종료
-            escText.gameObject.SetActive(true);
 
             doorLockCanvas.transform.localScale = Vector3.one;
 
