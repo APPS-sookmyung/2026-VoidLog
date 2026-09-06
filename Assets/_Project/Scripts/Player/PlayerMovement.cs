@@ -10,6 +10,9 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 moveInput; // Update에서 받은 입력을 저장할 변수
 
+    [SerializeField] private Animator animator;
+
+
     public bool getCanMove() { return CanMove; } // 현재 이동 가능 여부 확인
     
     public void setCanMove(bool state) 
@@ -39,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
         if (!CanMove) // 이동 불가 상태면 백터 값을 0으로 설정
         {
             moveInput = Vector2.zero;
+            animator.SetBool("isMoving", false);
             return;
         }
 
@@ -46,7 +50,20 @@ public class PlayerMovement : MonoBehaviour
         float h = Input.GetAxisRaw("Horizontal"); // x값확인 - A,D 움직일 때
         float v = Input.GetAxisRaw("Vertical");   // y값확인 - W,S 움직일 때
         
-        moveInput = new Vector2(h, v).normalized; 
+        moveInput = new Vector2(h, v).normalized;
+
+        if(animator != null)
+        {
+            animator.SetBool("isMoving", moveInput != Vector2.zero);
+
+            if (moveInput != Vector2.zero) // 캐릭터 애니매이션 
+            {
+                animator.SetFloat("moveX", moveInput.x);
+                animator.SetFloat("moveY", moveInput.y);
+            }
+        
+        }
+        
     }
 
     private void FixedUpdate()
