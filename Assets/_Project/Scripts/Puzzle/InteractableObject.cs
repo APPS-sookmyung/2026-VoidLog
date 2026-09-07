@@ -24,14 +24,10 @@ public class InteractableObject : MonoBehaviour
     private bool isHandlingClose = false; 
     private PlayerMiniMap playerMiniMap;
 
-    [Header("끝난 후 나올 대사 설정")]
-    [SerializeField] private Puzzle_01_02_DialogueManager dialogueManager;
-    [SerializeField] private DialogueSO dialogueData;
-
     void Awake()
     {
-        player = FindObjectOfType<PlayerMovement>();
-        playerMiniMap = FindObjectOfType<PlayerMiniMap>();
+        player = FindAnyObjectByType<PlayerMovement>();
+        playerMiniMap = FindAnyObjectByType<PlayerMiniMap>();
     }
     void Start()
     {
@@ -70,19 +66,12 @@ public class InteractableObject : MonoBehaviour
     private IEnumerator HandleInteractionClosed() // 캔버스가 꺼진 '직후'에 한 번 실행되는 로직
     {
             isHandlingClose = true;
-            if (dialogueManager != null && dialogueData != null)
-            {
-                player.setCanMove(false);
-                dialogueData.setHasDialogue(false);
-                dialogueManager.DialogueStart(dialogueData);
-                // 대사가 끝날 때까지 기다리기
-                yield return new WaitUntil(() => dialogueData.getHasDialogue());
 
-            }
             player.setCanMove(true);
             // 한 번 실행 후 다시 실행되지 않도록 플래그를 false로 변경
             hasInteracted = false;
             isHandlingClose = false;
+            yield break;
     }
 
     public void CloseInteract() // 캔버스 닫기 위한 함수 (버튼에 연결)
