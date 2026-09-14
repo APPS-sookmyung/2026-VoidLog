@@ -19,11 +19,6 @@ public class GoHomeButton : MonoBehaviour
 
     public void OnClickGoHome()
     {
-        // 버튼 자신을 바로 비활성화하지 않고, 버튼의 Graphic(Image)과 컴포넌트만 끄거나 
-        // 혹은 코루틴을 다른 활성화된 오브젝트(예: DialogueManager 등)에서 실행하도록 분리해야 합니다.
-        // 여기서는 버튼 오브젝트 자체를 끄는 대신 내부 컴포넌트나 자식 이미지만 숨기는 방식을 추천합니다.
-        
-        // 만약 꼭 버튼 오브젝트를 꺼야 한다면, 아래처럼 코루틴 실행 주체를 변경해야 합니다.
         
         if (additionalObjectsToHide != null)
         {
@@ -46,8 +41,6 @@ public class GoHomeButton : MonoBehaviour
 
         if (viewer != null)
         {
-            // ★ 수정: 버튼(자기 자신)이 꺼지더라도 코루틴이 끊기지 않도록 
-            // 씬에 항상 살아있는 DialogueManager나 다른 활성 오브젝트를 통해 코루틴을 실행합니다.
             DialogueManager.Instance.StartCoroutine(AutoGoHomeRoutine());
         }
         else
@@ -55,13 +48,12 @@ public class GoHomeButton : MonoBehaviour
             Debug.LogWarning("[GoHomeButton] Viewer가 연결되지 않아 자동 전환을 쓸 수 없습니다. 클릭으로만 넘어갑니다.");
         }
 
-        // 버튼 자신은 코루틴을 예약한 뒤에 끕니다.
         gameObject.SetActive(false);
     }
 
     private IEnumerator AutoGoHomeRoutine()
     {
-        yield return null; // 타이핑이 실제로 시작될 시간을 한 프레임 준다
+        yield return null;
 
         while (viewer != null && viewer.IsTyping)
         {
