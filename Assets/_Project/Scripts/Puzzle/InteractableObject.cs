@@ -24,12 +24,10 @@ public class InteractableObject : MonoBehaviour
     private bool isHandlingClose = false; 
     private PlayerMiniMap playerMiniMap;
 
-
-
     void Awake()
     {
-        player = FindObjectOfType<PlayerMovement>();
-        playerMiniMap = FindObjectOfType<PlayerMiniMap>();
+        player = FindAnyObjectByType<PlayerMovement>();
+        playerMiniMap = FindAnyObjectByType<PlayerMiniMap>();
     }
     void Start()
     {
@@ -69,6 +67,20 @@ public class InteractableObject : MonoBehaviour
                 }
             }
         }
+        if (canvas != null && !canvas.gameObject.activeSelf && hasInteracted && !isHandlingClose)
+        {
+            StartCoroutine(HandleInteractionClosed());
+        }
+    }
+    private IEnumerator HandleInteractionClosed() // 캔버스가 꺼진 '직후'에 한 번 실행되는 로직
+    {
+            isHandlingClose = true;
+
+            player.setCanMove(true);
+            // 한 번 실행 후 다시 실행되지 않도록 플래그를 false로 변경
+            hasInteracted = false;
+            isHandlingClose = false;
+            yield break;
     }
 
     public void CloseInteract() // 캔버스 닫기 위한 함수 (버튼에 연결)
