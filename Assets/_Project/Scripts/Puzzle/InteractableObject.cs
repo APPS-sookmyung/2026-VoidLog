@@ -40,12 +40,20 @@ public class InteractableObject : MonoBehaviour
         // E 키 입력 처리
         if (Input.GetKeyDown(KeyCode.E) && isClick)
         {
+            // 대사 출력 중이면 E 상호작용 금지
+            if (DialogueManager.Instance != null && DialogueManager.Instance.getIsDialogueRunning())
+            {
+                    return;
+            }
             if (canvas != null)
             {
                 // 캔버스가 비활성화 상태이면 활성화
                 if (!canvas.gameObject.activeSelf)
                 {
-                    playerMiniMap.HideMiniMap();
+                    if(playerMiniMap != null)
+                    {
+                        playerMiniMap.HideMiniMap();    
+                    }
                     canvas.gameObject.SetActive(true);
                     player.setCanMove(false);
                     onInteract?.Invoke(); // 연동된 외부 이벤트 실행
@@ -55,6 +63,7 @@ public class InteractableObject : MonoBehaviour
                 else
                 {
                     CloseInteract();
+                    player.setCanMove(true);
                 }
             }
         }
@@ -77,7 +86,10 @@ public class InteractableObject : MonoBehaviour
     public void CloseInteract() // 캔버스 닫기 위한 함수 (버튼에 연결)
     {
         if (canvas.gameObject.activeSelf) canvas.gameObject.SetActive(false);
-        playerMiniMap.ShowMiniMap();
+        if(playerMiniMap != null)
+        {
+            playerMiniMap.ShowMiniMap();    
+        }
         onClose?.Invoke();
     }
  
