@@ -1,7 +1,0 @@
-﻿GroupID,Order,Speaker,Text,Portrait,SoundEffect,Memo,PanelType
-Start,1,Player,소리가 들려…,,,,Black
-Start,2,Player,"저 너머에 누군가 있다는 사실만으로도 숨이 조여와. 타인의 시선, 존재 모든게 나를 짓누르는 거 같아…",,,,Black
-Start,3,Player,세상은 너무 거대하고\n나는 이 어둠 속에서 숨어\n숨 쉬는 것조차 버거워,,,,Black
-Inform,1,System,2316,,,,System
-Inform,2,System,[SUBJECT: #902] \n[STATUS: 중증 우울증 \n/ 회피성 인격 장애]\n [WARNING: 외부 접촉 차단 상태 유지 중],,,,System
-Find,1,Player,… 이게 뭐야?\n회사가 금지한… 사적 통신 저장장치?,,,,Monologue
