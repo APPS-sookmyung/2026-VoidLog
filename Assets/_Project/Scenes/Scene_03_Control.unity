@@ -2578,7 +2578,7 @@ MonoBehaviour:
   targetPuzzle: {fileID: 1016421134}
   puzzleUI: {fileID: 1289638362}
   mainConsoleManager: {fileID: 1491387301}
-  nextRoomDoor: {fileID: 0}
+  nextRoomDoor: {fileID: 238952778}
 --- !u!1 &636360948
 GameObject:
   m_ObjectHideFlags: 0
