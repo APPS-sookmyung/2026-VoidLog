@@ -4,17 +4,6 @@ using UnityEngine.UI;
 
 namespace VoidLog.UI
 {
-    /// <summary>
-    /// RoomBackground용 컨트롤러. 두 가지를 같이 처리한다:
-    /// 1. 크로스페이드 - 스프라이트가 바뀔 때 순간 교체 대신 서서히 겹쳐 전환
-    /// 2. 켄 번즈 효과 - 화면이 멈춰있는 동안에도 아주 천천히 확대/이동해서
-    ///    "정지 사진"이 아니라 "카메라가 살아있는" 느낌을 준다. 이게 있어야
-    ///    크로스페이드만으로는 부족한 "영상 같은 느낌"이 실제로 살아난다.
-    ///
-    /// 세팅 방법은 이전과 동일: RoomBackground에 붙이고,
-    /// 각 Step에서 Image.sprite 대신 CrossfadeImage.SetSprite(Sprite)를 연결한다.
-    /// 켄 번즈는 별도 설정 없이 자동으로 항상 작동한다 (끄고 싶으면 zoomAmplitude를 0으로).
-    /// </summary>
     [RequireComponent(typeof(Image))]
     public class CrossfadeImage : MonoBehaviour
     {

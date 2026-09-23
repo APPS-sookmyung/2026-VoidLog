@@ -4,11 +4,8 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-/// <summary>
-/// 오프닝 전용 대사 매니저 - 자동 진행 버전.
-/// 클릭/스페이스 없이도 한 줄 타이핑이 끝나면 읽을 시간을 준 뒤 자동으로 다음 줄로 넘어간다.
-/// (타이핑 도중 클릭하면 그 줄만 즉시 완성되는 스킵 기능은 편의상 남겨뒀다 - 필요 없으면 지워도 됨)
-/// </summary>
+// 오프닝 전용 대사 매니저 
+
 public class OpeningDialogueManager : MonoBehaviour
 {
     public static OpeningDialogueManager Instance { get; private set; }
@@ -39,8 +36,7 @@ public class OpeningDialogueManager : MonoBehaviour
 
     private void Update()
     {
-        // 타이핑 도중 클릭하면 그 줄만 즉시 완성 (자동 진행 자체는 그대로 유지됨).
-        // 이 기능 자체가 필요 없으면 이 Update()를 통째로 지워도 된다.
+
         if (isDialogueRunning && viewer != null && viewer.IsTyping)
         {
             if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
@@ -93,7 +89,6 @@ public class OpeningDialogueManager : MonoBehaviour
         }
     }
 
-    /// <summary>groupId의 대사를 처음부터 끝까지 자동으로 재생하고, 끝나면 onComplete를 호출한다.</summary>
     public void StartDialogueGroup(string groupId, Action onComplete = null)
     {
         if (!dialogueDatabase.ContainsKey(groupId))
@@ -130,13 +125,11 @@ public class OpeningDialogueManager : MonoBehaviour
         {
             viewer.ShowText(line.Speaker, line.Text, line.PanelType);
 
-            // 타이핑이 끝날 때까지 대기 (도중에 클릭하면 Update()가 즉시 완성시켜줌)
             while (viewer.IsTyping)
             {
                 yield return null;
             }
 
-            // 다 읽을 시간을 준 뒤 자동으로 다음 줄로
             yield return new WaitForSeconds(readDelayPerLine);
         }
 
