@@ -30,18 +30,27 @@ public class Puzzle_CorridorPassword : MonoBehaviour
     {
         Map.gameObject.SetActive(false); // 지도 화면 안뜨게
         passwordInputField.text = ""; //비밀번호 입력 초기화
-        if (passwordInputField != null)
+        if (SaveManager.Instance.Data.hasOpenedMap)
         {
-            // 초기 세팅: 자리 제한 및 숫자만 입력 가능하도록 강제 설정
-            passwordInputField.characterLimit = 5;
-            passwordInputField.contentType = TMP_InputField.ContentType.IntegerNumber;
+            Map.gameObject.SetActive(true);
         }
+        else
+        {
+            
+            if (passwordInputField != null)
+            {
+                // 초기 세팅: 자리 제한 및 숫자만 입력 가능하도록 강제 설정
+                passwordInputField.characterLimit = 5;
+                passwordInputField.contentType = TMP_InputField.ContentType.IntegerNumber;
+            }
 
-        if (feedbackText != null)
-        {
-            feedbackText.text = "비밀번호를 입력하세요.";
-            feedbackText.color = Color.white;
+            if (feedbackText != null)
+            {
+                feedbackText.text = "비밀번호를 입력하세요.";
+                feedbackText.color = Color.white;
+            }
         }
+        
     }
     
     // 입력 도중 호출
@@ -69,7 +78,9 @@ public class Puzzle_CorridorPassword : MonoBehaviour
         if (inputPassword == correctPassword)
         {
             Map.gameObject.SetActive(true);
-            GameProgressData.hasOpenedMap = true;
+            SaveManager.Instance.Data.hasOpenedMap = true;
+            SaveManager.Instance.SaveGame("SpawnPoint");
+
         }
         else
         {
