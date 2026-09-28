@@ -10,7 +10,7 @@ public class PlayerMiniMap : MonoBehaviour
     {
         worldMap.gameObject.SetActive(false);
 
-        if (GameProgressData.hasOpenedMap)
+        if (SaveManager.Instance.Data.hasOpenedMap)
         {
             miniMap.gameObject.SetActive(true);
         }
@@ -21,7 +21,7 @@ public class PlayerMiniMap : MonoBehaviour
     }
     void Update() // 지도맵 키패드 열람 시 미니맵 활성화
     {
-        if (!GameProgressData.hasOpenedMap) return;
+        if (!SaveManager.Instance.Data.hasOpenedMap) return;
         
         if (Input.GetKeyDown(KeyCode.M))
         {
@@ -49,7 +49,7 @@ public class PlayerMiniMap : MonoBehaviour
 
     public void ShowMiniMap() // 미니맵 활성화
     {
-        if (GameProgressData.hasOpenedMap && !worldMap.gameObject.activeSelf)
+        if (SaveManager.Instance.Data.hasOpenedMap && !worldMap.gameObject.activeSelf)
         {
             miniMap.gameObject.SetActive(true);
         }

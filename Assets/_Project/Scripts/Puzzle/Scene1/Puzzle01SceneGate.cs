@@ -22,7 +22,7 @@ public class Puzzle01SceneGate : MonoBehaviour
         if (!collision.CompareTag("Player"))
             return;
 
-        if (GameProgressData.hasOpenedMap)
+        if (SaveManager.Instance.Data.hasOpenedMap)
         {
             LoadNextScene();
         }
