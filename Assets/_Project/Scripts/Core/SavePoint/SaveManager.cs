@@ -28,18 +28,33 @@ public class SaveManager : MonoBehaviour
         }
 
         Instance = this;
+
+        // 혹시 다른 오브젝트의 자식으로 생성됐으면 루트로 빼기
+        transform.SetParent(null);
+        
         DontDestroyOnLoad(gameObject);
+
          Debug.Log("SaveManager 최초 생성");
 
         savePath = Path.Combine(Application.persistentDataPath,"save.json");
 
         Data = new SaveData();
-
+        
+        // 자식에 있는 SaveCanvas 자동 탐색
+        if (saveCanvas == null)
+        {
+            saveCanvas = GetComponentInChildren<Canvas>(true);
+        }
         // 처음에는 저장 UI 숨기기
         if (saveCanvas != null)
         {
             saveCanvas.gameObject.SetActive(false);
+        }else
+        {
+            Debug.LogError("SaveCanvas를 찾을 수 없습니다.");
         }
+
+        
     }
 
     //저장
@@ -55,6 +70,7 @@ public class SaveManager : MonoBehaviour
 
         // 저장 완료 UI 출력
         ShowSaveUI();
+        Debug.Log("TimeScale : " + Time.timeScale);
     }
 
     //불러오기
@@ -117,8 +133,13 @@ public class SaveManager : MonoBehaviour
     //저장 UI
     private void ShowSaveUI()
     {
+        Debug.Log("저장 UI 실행");
+
         if (saveCanvas == null)
+        {
+            Debug.LogError("SaveCanvas 없음");
             return;
+        }    
 
         // 저장이 연속으로 발생했을 경우 기존 타이머 취소
         if (saveUICoroutine != null)
@@ -150,5 +171,23 @@ public class SaveManager : MonoBehaviour
     public bool HasSaveData()
     {
         return File.Exists(savePath);
+    }
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private static void CreateSaveManager()
+    {
+        // 이미 존재하면 생성 안 함
+        if (Instance != null)
+            return;
+
+        GameObject prefab = Resources.Load<GameObject>("SaveManager");
+
+        if (prefab == null)
+        {
+            Debug.LogError("SaveManager 프리팹을 찾을 수 없습니다.");
+            return;
+        }
+
+        Instantiate(prefab);
     }
 }
