@@ -32,6 +32,12 @@ public class SudokuManager : MonoBehaviour
     // 게임이 이미 끝났는지(오답 3번 이상) 여부. 게임오버 후에는 더 이상 입력을 못하게 막는 용도
     private bool isGameOver = false;
 
+    // 스도쿠를 클리어했는지 여부 (중복 저장 방지)
+    private bool isCleared = false;
+
+    [Header("클리어 저장 시 이어하기 위치 (비우면 기본 위치)")]
+    [SerializeField] private string saveSpawnPointName = "";
+
     // 0 = 빈칸(플레이어가 채워야 함), 나머지 숫자 = 처음부터 고정
     private int[,] puzzle = new int[9, 9]
     {
@@ -64,6 +70,12 @@ public class SudokuManager : MonoBehaviour
     {
         GenerateGrid();
         UpdateWrongCountUI(); // 시작할 때 "오답: 0 / 3" 을 미리 화면에 표시
+
+        // 이미 클리어한 저장 데이터가 있으면 정답이 채워진 상태로 복구
+        if (SaveManager.Instance != null && SaveManager.Instance.Data.isScene4Cleared)
+        {
+            RestoreClearedState();
+        }
     }
 
     void GenerateGrid()
@@ -145,6 +157,12 @@ public class SudokuManager : MonoBehaviour
                 input.textComponent.color = correctColor; // 초록색으로 변경
 
             StartCoroutine(PulseCell(cellObjects[row, col])); // 살짝 커졌다 돌아오는 효과 재생
+
+            // 마지막 칸까지 다 맞췄으면 자동 클리어
+            if (IsBoardSolved())
+            {
+                OnSudokuCleared();
+            }
         }
         else
         {
@@ -234,7 +252,7 @@ public class SudokuManager : MonoBehaviour
     // 지금은 칸마다 실시간으로 채점하기 때문에 필수는 아니지만, 남겨두었습니다.
     public void CheckAnswer()
     {
-        if (isGameOver) return;
+        if (isGameOver || isCleared) return;
 
         bool isCorrect = true;
 
@@ -273,5 +291,90 @@ public class SudokuManager : MonoBehaviour
         }
 
         Debug.Log(isCorrect ? "스도쿠 클리어!" : "오답");
+
+        if (isCorrect)
+        {
+            OnSudokuCleared();
+        }
+    }
+
+    // 보드 전체가 정답으로 채워졌는지 확인
+    bool IsBoardSolved()
+    {
+        for (int row = 0; row < 9; row++)
+        {
+            for (int col = 0; col < 9; col++)
+            {
+                int playerNumber;
+                if (!int.TryParse(cells[row, col].text, out playerNumber) ||
+                    playerNumber != solution[row, col])
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    // 스도쿠 클리어 처리 + 저장
+    void OnSudokuCleared()
+    {
+        if (isCleared) return;
+        isCleared = true;
+
+        LockAllCells();
+
+        if (resultText != null)
+        {
+            resultText.text = "Correct!";
+            resultText.color = correctColor;
+        }
+
+        if (SaveManager.Instance != null)
+        {
+            SaveManager.Instance.SetSceneCleared(4, saveSpawnPointName);
+        }
+    }
+
+    // 저장된 클리어 상태 복구 (정답으로 채우고 잠금)
+    void RestoreClearedState()
+    {
+        isCleared = true;
+
+        for (int row = 0; row < 9; row++)
+        {
+            for (int col = 0; col < 9; col++)
+            {
+                TMP_InputField input = cells[row, col];
+                if (input == null) continue;
+
+                if (puzzle[row, col] == 0)
+                {
+                    input.SetTextWithoutNotify(solution[row, col].ToString());
+                    if (input.textComponent != null)
+                        input.textComponent.color = correctColor;
+                }
+            }
+        }
+
+        LockAllCells();
+
+        if (resultText != null)
+        {
+            resultText.text = "Correct!";
+            resultText.color = correctColor;
+        }
+    }
+
+    void LockAllCells()
+    {
+        for (int row = 0; row < 9; row++)
+        {
+            for (int col = 0; col < 9; col++)
+            {
+                if (cells[row, col] != null)
+                    cells[row, col].interactable = false;
+            }
+        }
     }
 }

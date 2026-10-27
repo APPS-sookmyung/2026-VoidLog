@@ -18,4 +18,10 @@ public class PuzzleController : MonoBehaviour
         // 이벤트를 구독하고 있는 대상에게 알림 발송
         OnPuzzleClearedEvent?.Invoke();
     }
+
+    // 저장 데이터로 클리어 상태만 복구할 때 사용 (이벤트 호출 X)
+    public void SetClearedWithoutNotify()
+    {
+        IsPuzzleCleared = true;
+    }
 }

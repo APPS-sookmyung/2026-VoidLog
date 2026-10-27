@@ -127,6 +127,41 @@ public class SaveManager : MonoBehaviour
 
         Debug.Log("게임 진행 데이터 초기화");
     }
+
+    // 씬 클리어 여부 (Scene 3 ~ 6)
+
+    // 씬 클리어 여부 확인
+    public bool IsSceneCleared(int sceneNumber)
+    {
+        switch (sceneNumber)
+        {
+            case 3: return Data.isScene3Cleared;
+            case 4: return Data.isScene4Cleared;
+            case 5: return Data.isScene5Cleared;
+            case 6: return Data.isScene6Cleared;
+            default:
+                Debug.LogWarning("클리어 여부가 없는 씬 번호입니다 : " + sceneNumber);
+                return false;
+        }
+    }
+
+    // 씬 클리어 처리 후 바로 저장
+    public void SetSceneCleared(int sceneNumber, string spawnPointName = "")
+    {
+        switch (sceneNumber)
+        {
+            case 3: Data.isScene3Cleared = true; break;
+            case 4: Data.isScene4Cleared = true; break;
+            case 5: Data.isScene5Cleared = true; break;
+            case 6: Data.isScene6Cleared = true; break;
+            default:
+                Debug.LogWarning("클리어 여부가 없는 씬 번호입니다 : " + sceneNumber);
+                return;
+        }
+
+        Debug.Log("Scene " + sceneNumber + " 클리어 저장");
+        SaveGame(spawnPointName);
+    }
    
 
 
