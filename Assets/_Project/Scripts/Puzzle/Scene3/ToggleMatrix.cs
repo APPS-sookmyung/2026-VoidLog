@@ -33,6 +33,13 @@ public class ToggleMatrix : MonoBehaviour
 
     private void Start()
     {
+        // 이미 클리어한 저장 데이터가 있으면 클리어 상태로 복구 (이벤트/대사 재실행 X)
+        if (SaveManager.Instance != null && SaveManager.Instance.Data.isScene3Cleared)
+        {
+            RestoreClearedState();
+            return;
+        }
+
         // [프로토타입 초기 상태 세팅]
         leverStates[0] = false;  // L0
         leverStates[1] = false;  // L1
@@ -45,6 +52,29 @@ public class ToggleMatrix : MonoBehaviour
         SetButtonsInteractable(true);
 
         CheckPuzzleClear();
+    }
+
+    // 저장된 클리어 상태 복구
+    private void RestoreClearedState()
+    {
+        for (int i = 0; i < leverStates.Length; i++)
+        {
+            leverStates[i] = true;
+        }
+
+        isPuzzleCleared = true;
+        SetButtonsInteractable(false);
+        UpdateUI();
+
+        if (statusText != null)
+        {
+            statusText.text = "<color=green>[ SIGNAL : ON ]</color>";
+        }
+
+        if (mainConsoleManager != null)
+        {
+            mainConsoleManager.isPuzzleCleared = true;
+        }
     }
 
     // 버튼 클릭 이벤트

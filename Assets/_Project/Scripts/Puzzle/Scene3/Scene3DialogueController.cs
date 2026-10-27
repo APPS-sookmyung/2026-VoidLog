@@ -18,12 +18,22 @@ public class Scene3DialogueController : MonoBehaviour
     [Header("클리어 후 열릴 문 (중앙 통제실 -> 메인 기록실)")]
     [SerializeField] private GameObject nextRoomDoor;
 
+    [Header("클리어 저장 시 이어하기 위치 (비우면 기본 위치)")]
+    [SerializeField] private string saveSpawnPointName = "";
+
     // PuzzleLocked 연출은 최초 1회만 재생
     private bool hasShownLockedDialogue = false;
 
     private IEnumerator Start()
     {
         yield return null; // 한 프레임 대기 후 시작
+
+        // 이미 클리어한 상태로 불러왔다면 다음 방 문 열어두기
+        if (SaveManager.Instance != null && SaveManager.Instance.Data.isScene3Cleared)
+        {
+            if (mainConsoleManager != null) mainConsoleManager.isPuzzleCleared = true;
+            if (nextRoomDoor != null) nextRoomDoor.SetActive(true);
+        }
 
         if (DialogueManager.Instance == null) yield break;
         DialogueManager.Instance.LoadDialogueDatabase(sceneDialogueCSV);
@@ -61,6 +71,12 @@ public class Scene3DialogueController : MonoBehaviour
     private void HandlePuzzleCleared()
     {
         Debug.Log("[Scene3] 레버 퍼즐 클리어");
+
+        // 클리어 여부 저장
+        if (SaveManager.Instance != null)
+        {
+            SaveManager.Instance.SetSceneCleared(3, saveSpawnPointName);
+        }
 
         StartCoroutine(WaitAndStartDialogue());
     }
