@@ -4,8 +4,6 @@ using System.Collections.Generic;
 [Serializable]
 public class SaveData
 {
-    public static SaveManager Instance { get; private set; }
-
     // 이어하기 위치
     public string sceneName;
     public string spawnPointName;
