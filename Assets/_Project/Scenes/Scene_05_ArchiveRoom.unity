@@ -1488,6 +1488,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   moveSpeed: 5
+  animator: {fileID: 0}
 --- !u!212 &329659560
 SpriteRenderer:
   serializedVersion: 2
@@ -1747,6 +1748,7 @@ MonoBehaviour:
   targetPuzzle: {fileID: 1616744380}
   archiveRoomPuzzle: {fileID: 731232460}
   nextRoomDoor: {fileID: 0}
+  saveSpawnPointName: 
 --- !u!1 &368367226
 GameObject:
   m_ObjectHideFlags: 0
@@ -2305,8 +2307,6 @@ MonoBehaviour:
   onClose:
     m_PersistentCalls:
       m_Calls: []
-  dialogueManager: {fileID: 0}
-  dialogueData: {fileID: 0}
 --- !u!70 &542234860
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -2538,8 +2538,6 @@ MonoBehaviour:
   onClose:
     m_PersistentCalls:
       m_Calls: []
-  dialogueManager: {fileID: 0}
-  dialogueData: {fileID: 0}
 --- !u!70 &566607859
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -5093,8 +5091,6 @@ MonoBehaviour:
   onClose:
     m_PersistentCalls:
       m_Calls: []
-  dialogueManager: {fileID: 0}
-  dialogueData: {fileID: 0}
 --- !u!70 &1347775475
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -6468,6 +6464,37 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &1836079354
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1836079355}
+  m_Layer: 0
+  m_Name: FromHangar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1836079355
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836079354}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 16.86, y: 0.89, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1844872337
 GameObject:
   m_ObjectHideFlags: 0
@@ -7652,3 +7679,4 @@ SceneRoots:
   - {fileID: 1059262540}
   - {fileID: 2119710937}
   - {fileID: 230657483}
+  - {fileID: 1836079355}
