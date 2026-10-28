@@ -1,0 +1,7 @@
+﻿GroupID,Order,Speaker,Text,Portrait,SoundEffect,Memo,PanelType
+Replay,1,Player,자유룰 찾겠다고? 웃기는 소리.\n결국 바깥은 데이터조차 닿지 않는 거대한 공허뿐이야.,,,,Black
+Replay,2,Player,결국 남은 건 차가운 우주 미라 신세뿐이잖아.,,,,Black
+Replay,3,Player,틀렸어. 그곳엔 아무것도 없어.\n순응만이 유일한 정답이야…,,,,Black
+Replay,3,Player,바깥의 차가운 별빛 따윈 환상일 뿐이야.,,,,Black
+Replay,3,Player,자유라는 허황된 꿈이 모든 걸 망쳤어.,,,,Black
+ReplayButton,1,System,"자유는 공짜가 아니야.\n자, 다시 시작해 볼까?",,,,
