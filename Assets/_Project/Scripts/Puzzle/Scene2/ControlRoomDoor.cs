@@ -31,7 +31,7 @@ public class ControlRoomDoor : MonoBehaviour
 
     private void Update()
     {
-        if (!GameProgressData.hasOpenedControlRoomDoor &&
+        if (!SaveManager.Instance.Data.hasOpenedControlRoomDoor &&
             doorLockCanvas.gameObject.activeSelf)
         {
             if (passwordInput != "")
@@ -49,7 +49,7 @@ public class ControlRoomDoor : MonoBehaviour
 
     public void DoorCheck()
     {
-        if (!GameProgressData.hasOpenedControlRoomDoor)
+        if (!SaveManager.Instance.Data.hasOpenedControlRoomDoor)
         {
             passwordInput = "";
 
@@ -105,7 +105,8 @@ public class ControlRoomDoor : MonoBehaviour
     {
         if (inputPassword == correctPassword)
         {
-            GameProgressData.hasOpenedControlRoomDoor = true;
+            SaveManager.Instance.Data.hasOpenedControlRoomDoor = true;
+            SaveManager.Instance.SaveGame("FromControl");
 
             feedbackText.color = Color.white;
             feedbackText.text = "인증이 완료되었습니다.";
@@ -133,7 +134,7 @@ public class ControlRoomDoor : MonoBehaviour
 
     public void DeletePasswordNumber()
     {
-        if (!GameProgressData.hasOpenedControlRoomDoor)
+        if (!SaveManager.Instance.Data.hasOpenedControlRoomDoor)
         {
             passwordInput = "";
 
@@ -145,7 +146,7 @@ public class ControlRoomDoor : MonoBehaviour
     public void KeyPadClickButton(string number)
     {
         if (passwordInput.Length < 9 &&
-            !GameProgressData.hasOpenedControlRoomDoor)
+            !SaveManager.Instance.Data.hasOpenedControlRoomDoor)
         {
             passwordInput += number;
         }

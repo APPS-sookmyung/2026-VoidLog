@@ -33,8 +33,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake() 
     {
-        Instance = this;
+    Instance = this;
+
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void Update()
@@ -65,6 +67,7 @@ public class PlayerMovement : MonoBehaviour
         }
         
     }
+
 
     private void FixedUpdate()
     {
