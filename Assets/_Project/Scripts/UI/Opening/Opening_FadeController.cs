@@ -19,7 +19,7 @@ namespace VoidLog.UI
                 return;
             }
 
-            SetAlphaImmediate(1f);
+            SetAlphaImmediate(0f);
         }
 
         public void FadeIn(float duration = -1f, System.Action onComplete = null)
