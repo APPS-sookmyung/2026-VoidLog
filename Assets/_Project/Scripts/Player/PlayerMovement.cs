@@ -14,11 +14,11 @@ public class PlayerMovement : MonoBehaviour
 
 
     public bool getCanMove() { return CanMove; } // 현재 이동 가능 여부 확인
-    
-    public void setCanMove(bool state) 
-    { 
-        CanMove = state; 
-    
+
+    public void setCanMove(bool state)
+    {
+        CanMove = state;
+
         // 이동 불가로 전환되는 즉시 입력값과 물리 속도를 0으로 강제 초기화
         if (!CanMove)
         {
@@ -31,9 +31,16 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void Awake() 
+    public float getSpeed() { return moveSpeed; } // 현재 이동 속도 확인
+
+    public void setSpeed(float newSpeed) // 이동 속도 변경
     {
-    Instance = this;
+        moveSpeed = newSpeed;
+    }
+
+    private void Awake()
+    {
+        Instance = this;
 
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
@@ -51,10 +58,10 @@ public class PlayerMovement : MonoBehaviour
         // Update에서는 빠른 키 입력 감지만 처리
         float h = Input.GetAxisRaw("Horizontal"); // x값확인 - A,D 움직일 때
         float v = Input.GetAxisRaw("Vertical");   // y값확인 - W,S 움직일 때
-        
+
         moveInput = new Vector2(h, v).normalized;
 
-        if(animator != null)
+        if (animator != null)
         {
             animator.SetBool("isMoving", moveInput != Vector2.zero);
 
@@ -63,9 +70,9 @@ public class PlayerMovement : MonoBehaviour
                 animator.SetFloat("moveX", moveInput.x);
                 animator.SetFloat("moveY", moveInput.y);
             }
-        
+
         }
-        
+
     }
 
 
@@ -78,6 +85,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // FixedUpdate에서 물리 속도를 일정한 주기로 변경
-        rb.linearVelocity = moveInput * moveSpeed; 
+        rb.linearVelocity = moveInput * moveSpeed;
     }
 }
