@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using UnityEngine.SceneManagement; // 씬 이동/로드에 필요한 네임스페이스
 
 public class SudokuManager : MonoBehaviour
 {
@@ -19,6 +20,12 @@ public class SudokuManager : MonoBehaviour
     public Color defaultColor = Color.black; // 원래 처음부터 있던 숫자, 빈칸일 때 색
     public float pulseScale = 1.25f;    // 정답 맞췄을 때 몇 배로 커질지 (1.25 = 25% 더 커짐)
     public float pulseDuration = 0.12f; // 커졌다가 원래대로 돌아오는데 걸리는 시간(초)
+
+    [Header("씬 전환 설정 (새로 추가됨)")]
+    [Tooltip("스도쿠 클리어 시 이동할 다음 씬의 이름")]
+    [SerializeField] private string nextSceneName = "";
+    [Tooltip("씬이 전환되거나 재시작되기 전 대기 시간 (초)")]
+    [SerializeField] private float loadDelayTime = 1.5f;
 
     // 9x9 입력칸들을 담아두는 배열. 예: cells[0,0] = 맨 왼쪽 위 칸의 입력창
     private TMP_InputField[,] cells = new TMP_InputField[9, 9];
@@ -84,10 +91,6 @@ public class SudokuManager : MonoBehaviour
         {
             for (int col = 0; col < 9; col++)
             {
-                // ↓↓↓ 중요! for문 안에서 row, col을 그대로 델리게이트(아래 onEndEdit)에 넘기면
-                //     나중에 함수가 실제로 실행될 때는 row, col이 이미 9, 9로 바뀌어있어서
-                //     엉뚱한 칸을 가리키게 됩니다. 그래서 반드시 r, c 라는 "그 순간의 값을 복사한
-                //     지역 변수"를 새로 만들어서 넘겨줘야 합니다. (C#의 클로저 캡처 문제)
                 int r = row;
                 int c = col;
 
@@ -115,16 +118,12 @@ public class SudokuManager : MonoBehaviour
                     input.text = "";
                     input.interactable = true;
 
-                    // onEndEdit: 사용자가 이 칸에 숫자를 쓰고 Enter를 누르거나
-                    //            다른 칸을 클릭해서 포커스를 벗어났을 때 자동으로 호출됩니다.
                     input.onEndEdit.AddListener((value) => OnCellEndEdit(r, c));
                 }
             }
         }
     }
 
-    // 한 칸의 입력이 "끝났을 때" (Enter 또는 다른 곳 클릭) 호출되는 함수.
-    // 여기서 정답인지 오답인지 바로바로 체크해서 색깔/애니메이션/오답카운트를 처리합니다.
     void OnCellEndEdit(int row, int col)
     {
         // 이미 게임오버 상태라면 더 이상 아무것도 하지 않음
@@ -143,7 +142,6 @@ public class SudokuManager : MonoBehaviour
 
         int playerNumber;
 
-        // 혹시 숫자가 아닌 값이 입력됐을 경우를 대비 (예: 알파벳 등 이상한 입력 방지)
         if (!int.TryParse(text, out playerNumber))
         {
             input.text = "";
@@ -180,9 +178,6 @@ public class SudokuManager : MonoBehaviour
         }
     }
 
-    // 칸이 잠깐 커졌다가(pulseScale 배율) 다시 원래 크기로 돌아오는 애니메이션.
-    // 코루틴(IEnumerator)은 Unity에서 "시간이 걸리는 동작"을 여러 프레임에 걸쳐
-    // 자연스럽게 처리할 때 쓰는 방법입니다. StartCoroutine으로 실행시킵니다.
     IEnumerator PulseCell(GameObject cellObj)
     {
         Vector3 originalScale = cellObj.transform.localScale;
@@ -190,18 +185,16 @@ public class SudokuManager : MonoBehaviour
 
         float elapsed = 0f;
 
-        // 1단계: 원래 크기 -> 커진 크기로 부드럽게 변화 (Lerp = 두 값 사이를 보간)
         while (elapsed < pulseDuration)
         {
             elapsed += Time.deltaTime;
             float t = elapsed / pulseDuration;
             cellObj.transform.localScale = Vector3.Lerp(originalScale, targetScale, t);
-            yield return null; // 한 프레임 기다렸다가 다음 줄로 이어서 실행
+            yield return null;
         }
 
         elapsed = 0f;
 
-        // 2단계: 커진 크기 -> 다시 원래 크기로 부드럽게 변화
         while (elapsed < pulseDuration)
         {
             elapsed += Time.deltaTime;
@@ -210,11 +203,9 @@ public class SudokuManager : MonoBehaviour
             yield return null;
         }
 
-        // 혹시 오차가 남았을 수도 있으니 마지막엔 정확히 원래 크기로 고정
         cellObj.transform.localScale = originalScale;
     }
 
-    // 화면 위쪽 등에 "오답: 1 / 3" 처럼 표시해주는 함수
     void UpdateWrongCountUI()
     {
         if (wrongCountText != null)
@@ -228,7 +219,6 @@ public class SudokuManager : MonoBehaviour
     {
         isGameOver = true;
 
-        // 모든 칸을 더 이상 못 누르게 잠금
         for (int row = 0; row < 9; row++)
         {
             for (int col = 0; col < 9; col++)
@@ -244,12 +234,19 @@ public class SudokuManager : MonoBehaviour
             resultText.color = wrongColor;
         }
 
-        Debug.Log("게임 오버! 오답이 " + maxWrongCount + "번 누적되었습니다.");
+        Debug.Log("게임 오버! 오답이 " + maxWrongCount + "번 누적되었습니다. 씬을 다시 로드합니다.");
+
+        // 오답으로 실패 시 현재 씬 다시 로드 (코루틴을 통해 잠시 대기 후 실행)
+        StartCoroutine(RestartSceneAfterDelay());
     }
 
-    // (선택 기능) "정답 확인" 버튼을 따로 만들고 싶다면 이 함수를 연결해서
-    // 보드 전체가 다 채워졌고 전부 맞았는지 한번에 검사할 수도 있습니다.
-    // 지금은 칸마다 실시간으로 채점하기 때문에 필수는 아니지만, 남겨두었습니다.
+    // 일정 시간 대기 후 현재 씬 재시작 코루틴
+    IEnumerator RestartSceneAfterDelay()
+    {
+        yield return new WaitForSeconds(loadDelayTime);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
     public void CheckAnswer()
     {
         if (isGameOver || isCleared) return;
@@ -290,15 +287,12 @@ public class SudokuManager : MonoBehaviour
             }
         }
 
-        Debug.Log(isCorrect ? "스도쿠 클리어!" : "오답");
-
         if (isCorrect)
         {
             OnSudokuCleared();
         }
     }
 
-    // 보드 전체가 정답으로 채워졌는지 확인
     bool IsBoardSolved()
     {
         for (int row = 0; row < 9; row++)
@@ -334,9 +328,28 @@ public class SudokuManager : MonoBehaviour
         {
             SaveManager.Instance.SetSceneCleared(4, saveSpawnPointName);
         }
+
+        Debug.Log("스도쿠 클리어! 다음 씬으로 이동합니다.");
+
+        // 클리어 시 다음 씬으로 이동 (코루틴을 통해 잠시 대기 후 실행)
+        StartCoroutine(LoadNextSceneAfterDelay());
     }
 
-    // 저장된 클리어 상태 복구 (정답으로 채우고 잠금)
+    // 일정 시간 대기 후 다음 씬 로드 코루틴
+    IEnumerator LoadNextSceneAfterDelay()
+    {
+        yield return new WaitForSeconds(loadDelayTime);
+
+        if (!string.IsNullOrEmpty(nextSceneName))
+        {
+            SceneManager.LoadScene(nextSceneName);
+        }
+        else
+        {
+            Debug.LogWarning("다음 씬 이름(nextSceneName)이 비어있습니다! 인스펙터 창에서 이동할 씬 이름을 입력해주세요.");
+        }
+    }
+
     void RestoreClearedState()
     {
         isCleared = true;
