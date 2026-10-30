@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using TMPro;
 using System.Collections;
 using UnityEngine.SceneManagement; // 씬 이동/로드에 필요한 네임스페이스
@@ -10,33 +11,46 @@ public class SudokuManager : MonoBehaviour
     public Transform gridParent;    // SudokuGrid 오브젝트
     public TMP_Text resultText;     // "Correct!" / "Game Over!" 등을 보여줄 텍스트 (없어도 동작함)
 
-    [Header("오답 카운트 관련 (새로 추가된 부분)")]
+    [Header("오답 카운트 관련")]
     public TMP_Text wrongCountText; // "오답: 0 / 3" 처럼 보여줄 텍스트 (Inspector에서 연결)
-    public int maxWrongCount = 3;   // 몇 번 틀리면 게임오버가 될지 (Inspector에서 숫자만 바꿔도 됨)
+    public int maxWrongCount = 3;   // 몇 번 틀리면 게임오버가 될지
 
-    [Header("색상 / 애니메이션 관련 (새로 추가된 부분)")]
+    [Header("색상 / 애니메이션 관련")]
     public Color correctColor = Color.green; // 정답일 때 글자 색
     public Color wrongColor = Color.red;     // 오답일 때 글자 색
     public Color defaultColor = Color.black; // 원래 처음부터 있던 숫자, 빈칸일 때 색
-    public float pulseScale = 1.25f;    // 정답 맞췄을 때 몇 배로 커질지 (1.25 = 25% 더 커짐)
+    public float pulseScale = 1.25f;    // 정답 맞췄을 때 몇 배로 커질지
     public float pulseDuration = 0.12f; // 커졌다가 원래대로 돌아오는데 걸리는 시간(초)
 
-    [Header("씬 전환 설정 (새로 추가됨)")]
-    [Tooltip("스도쿠 클리어 시 이동할 다음 씬의 이름")]
+    [Header("클리어 후 연출 (맵 복귀 → 대사 → 다음 씬)")]
+    [Tooltip("스도쿠 UI 전체 패널. 클리어하면 이 패널이 꺼지면서 맵 화면으로 돌아갑니다.\n" +
+             "주의: SudokuManager가 붙어있는 오브젝트(또는 그 자식)는 넣지 마세요! 코루틴이 멈춥니다.")]
+    [SerializeField] private GameObject sudokuPanel;
+    [Tooltip("Scene4DialogueController가 붙어있는 오브젝트 (GameManager 하위)")]
+    [SerializeField] private Scene4DialogueController dialogueController;
+    [Tooltip("\"Correct!\"를 보여주고 패널을 닫기까지 대기 시간 (초)")]
+    [SerializeField] private float closeDelayTime = 1f;
+    [Tooltip("맵으로 돌아온 뒤 대사가 시작되기까지 대기 시간 (초)")]
+    [SerializeField] private float dialogueStartDelay = 0.5f;
+    [Tooltip("스도쿠 패널이 닫혀 맵으로 돌아왔을 때 호출 (예: 플레이어 이동 잠금 해제, 도어락 UI 숨기기 등)")]
+    [SerializeField] private UnityEvent onReturnToMap;
+
+    [Header("씬 전환 설정")]
+    [Tooltip("PuzzleClear 대사가 끝난 뒤 이동할 다음 씬의 이름 (예: Scene_05...). Build Settings에 등록되어 있어야 합니다.")]
     [SerializeField] private string nextSceneName = "";
-    [Tooltip("씬이 전환되거나 재시작되기 전 대기 시간 (초)")]
+    [Tooltip("게임오버 후 씬이 재시작되기 전 대기 시간 (초)")]
     [SerializeField] private float loadDelayTime = 1.5f;
 
-    // 9x9 입력칸들을 담아두는 배열. 예: cells[0,0] = 맨 왼쪽 위 칸의 입력창
+    // 9x9 입력칸들을 담아두는 배열
     private TMP_InputField[,] cells = new TMP_InputField[9, 9];
 
-    // 애니메이션(커졌다 작아졌다)을 재생할 때 필요한, 각 칸의 실제 GameObject 배열
+    // 애니메이션을 재생할 때 필요한, 각 칸의 실제 GameObject 배열
     private GameObject[,] cellObjects = new GameObject[9, 9];
 
     // 지금까지 오답을 몇 번 냈는지 기억하는 변수
     private int wrongCount = 0;
 
-    // 게임이 이미 끝났는지(오답 3번 이상) 여부. 게임오버 후에는 더 이상 입력을 못하게 막는 용도
+    // 게임이 이미 끝났는지(오답 3번 이상) 여부
     private bool isGameOver = false;
 
     // 스도쿠를 클리어했는지 여부 (중복 저장 방지)
@@ -96,7 +110,7 @@ public class SudokuManager : MonoBehaviour
 
                 GameObject cellObj = Instantiate(cellPrefab, gridParent);
                 cellObj.name = "Cell_" + row + "_" + col;
-                cellObjects[row, col] = cellObj; // 나중에 애니메이션 재생할 때 쓰려고 저장
+                cellObjects[row, col] = cellObj;
 
                 TMP_InputField input = cellObj.GetComponent<TMP_InputField>();
                 cells[row, col] = input;
@@ -126,8 +140,8 @@ public class SudokuManager : MonoBehaviour
 
     void OnCellEndEdit(int row, int col)
     {
-        // 이미 게임오버 상태라면 더 이상 아무것도 하지 않음
-        if (isGameOver) return;
+        // 이미 게임오버/클리어 상태라면 더 이상 아무것도 하지 않음
+        if (isGameOver || isCleared) return;
 
         TMP_InputField input = cells[row, col];
         string text = input.text;
@@ -152,9 +166,9 @@ public class SudokuManager : MonoBehaviour
         {
             // ---- 정답인 경우 ----
             if (input.textComponent != null)
-                input.textComponent.color = correctColor; // 초록색으로 변경
+                input.textComponent.color = correctColor;
 
-            StartCoroutine(PulseCell(cellObjects[row, col])); // 살짝 커졌다 돌아오는 효과 재생
+            StartCoroutine(PulseCell(cellObjects[row, col]));
 
             // 마지막 칸까지 다 맞췄으면 자동 클리어
             if (IsBoardSolved())
@@ -166,10 +180,10 @@ public class SudokuManager : MonoBehaviour
         {
             // ---- 오답인 경우 ----
             if (input.textComponent != null)
-                input.textComponent.color = wrongColor; // 빨간색으로 변경
+                input.textComponent.color = wrongColor;
 
             wrongCount++;
-            UpdateWrongCountUI(); // "오답: n / 3" 텍스트 갱신
+            UpdateWrongCountUI();
 
             if (wrongCount >= maxWrongCount)
             {
@@ -219,14 +233,7 @@ public class SudokuManager : MonoBehaviour
     {
         isGameOver = true;
 
-        for (int row = 0; row < 9; row++)
-        {
-            for (int col = 0; col < 9; col++)
-            {
-                if (cells[row, col] != null)
-                    cells[row, col].interactable = false;
-            }
-        }
+        LockAllCells();
 
         if (resultText != null)
         {
@@ -234,9 +241,9 @@ public class SudokuManager : MonoBehaviour
             resultText.color = wrongColor;
         }
 
-        Debug.Log("게임 오버! 오답이 " + maxWrongCount + "번 누적되었습니다. 씬을 다시 로드합니다.");
+        Debug.Log("[Sudoku] 게임 오버! 오답이 " + maxWrongCount + "번 누적되었습니다. 씬을 처음부터 다시 로드합니다.");
 
-        // 오답으로 실패 시 현재 씬 다시 로드 (코루틴을 통해 잠시 대기 후 실행)
+        // 실패 시 현재 씬을 처음부터 다시 로드 (잠시 대기 후 실행)
         StartCoroutine(RestartSceneAfterDelay());
     }
 
@@ -329,17 +336,60 @@ public class SudokuManager : MonoBehaviour
             SaveManager.Instance.SetSceneCleared(4, saveSpawnPointName);
         }
 
-        Debug.Log("스도쿠 클리어! 다음 씬으로 이동합니다.");
+        Debug.Log("[Sudoku] 스도쿠 클리어!");
 
-        // 클리어 시 다음 씬으로 이동 (코루틴을 통해 잠시 대기 후 실행)
-        StartCoroutine(LoadNextSceneAfterDelay());
+        // 클리어 후: 스도쿠 닫고 맵으로 복귀 → PuzzleClear 대사 → 끝나면 다음 씬으로 이동
+        StartCoroutine(ClearSequence());
     }
 
-    // 일정 시간 대기 후 다음 씬 로드 코루틴
-    IEnumerator LoadNextSceneAfterDelay()
+    // 클리어 직후 연출: "Correct!" 잠깐 → 스도쿠 패널 닫기(맵 복귀) → 대사 → 다음 씬
+    IEnumerator ClearSequence()
     {
-        yield return new WaitForSeconds(loadDelayTime);
+        // 1) "Correct!" 잠깐 보여줌
+        yield return new WaitForSeconds(closeDelayTime);
 
+        // 2) 스도쿠 패널을 닫아서 맵 화면으로 복귀
+        if (sudokuPanel != null)
+        {
+            sudokuPanel.SetActive(false);
+        }
+        else
+        {
+            Debug.LogWarning("[Sudoku] sudokuPanel이 연결되지 않았습니다. 스도쿠 UI가 대사 패널을 가릴 수 있어요!");
+        }
+
+        onReturnToMap?.Invoke();
+
+        // 3) 대사 시작 (맵 복귀 후 dialogueStartDelay초 뒤에 시작)
+        // 주의: sudokuPanel이 꺼지면서 이 오브젝트가 비활성화될 수도 있으므로,
+        //       여기서부터는 이 코루틴이 아니라 "항상 켜져 있는" Scene4DialogueController가 대기/진행을 맡습니다.
+        PlayClearDialogueThenNextScene();
+    }
+
+    void PlayClearDialogueThenNextScene()
+    {
+        Debug.Log("[Sudoku] PuzzleClear 대사 시작");
+
+        if (dialogueController != null)
+        {
+            // 대사가 끝나면 LoadNextScene 실행
+            dialogueController.PlayClearDialogue(LoadNextScene, dialogueStartDelay);
+        }
+        else if (DialogueManager.Instance != null)
+        {
+            // 컨트롤러를 연결 안 했다면 DialogueManager를 직접 사용 (CSV는 Scene4DialogueController가 이미 로드해 둠)
+            Debug.LogWarning("[Sudoku] dialogueController가 연결되지 않아 DialogueManager를 직접 호출합니다.");
+            DialogueManager.Instance.StartDialogueGroup("PuzzleClear", LoadNextScene);
+        }
+        else
+        {
+            Debug.LogError("[Sudoku] DialogueManager.Instance가 없습니다. 대사 없이 다음 씬으로 이동합니다.");
+            LoadNextScene();
+        }
+    }
+
+    void LoadNextScene()
+    {
         if (!string.IsNullOrEmpty(nextSceneName))
         {
             SceneManager.LoadScene(nextSceneName);
