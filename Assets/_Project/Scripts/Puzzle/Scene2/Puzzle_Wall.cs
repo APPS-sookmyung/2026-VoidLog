@@ -16,20 +16,10 @@ public class Puzzle_Wall : MonoBehaviour
         wall.gameObject.SetActive(false);
     }
 
-    void Update()
-    {
-        Close();
-    }
+  
     public void WallOpen()
     {
         wall.gameObject.SetActive(true);
     }
-    public void Close() // ESC 창 닫기
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            wall.gameObject.SetActive(false);
-            playerMovement.setCanMove(true);
-        }
-    }
+   
 }
