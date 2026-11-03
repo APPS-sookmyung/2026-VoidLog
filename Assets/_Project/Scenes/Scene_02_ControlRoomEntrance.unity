@@ -926,9 +926,9 @@ MonoBehaviour:
   onClose:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 376248248}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ControlRoomDoor, Assembly-CSharp
-        m_MethodName: CloseDoor
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
