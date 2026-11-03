@@ -546,7 +546,7 @@ GameObject:
   - component: {fileID: 160783045}
   m_Layer: 5
   m_Name: DoorLock
-  m_TagString: Untagged
+  m_TagString: PuzzleUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3738,6 +3738,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4264562505307082393, guid: 3b049b1984f147747aea333d61dc2c7e, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5197,7 +5201,7 @@ GameObject:
   - component: {fileID: 1570307552}
   m_Layer: 5
   m_Name: WallPuzzle
-  m_TagString: Untagged
+  m_TagString: PuzzleUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7026,6 +7030,10 @@ PrefabInstance:
     - target: {fileID: 4022153708235983499, guid: 0a1379945e1b92a4284792305d47b3f5, type: 3}
       propertyPath: m_Name
       value: letterCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 4022153708235983499, guid: 0a1379945e1b92a4284792305d47b3f5, type: 3}
+      propertyPath: m_TagString
+      value: PuzzleUI
       objectReference: {fileID: 0}
     - target: {fileID: 5684455122117928525, guid: 0a1379945e1b92a4284792305d47b3f5, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target

@@ -6,11 +6,13 @@ public class PlayerMiniMap : MonoBehaviour
     [SerializeField] private GameObject miniMap;
     [SerializeField] private GameObject worldMap;
 
+    private bool wasPuzzleUIOpen = false;
+
     void Start()
     {
-        worldMap.gameObject.SetActive(false);
+        worldMap.SetActive(false);
 
-        if (SaveManager.Instance.Data.hasOpenedMap)
+        if (SaveManager.Instance != null && SaveManager.Instance.Data.hasOpenedMap)
         {
             miniMap.gameObject.SetActive(true);
         }
@@ -19,32 +21,52 @@ public class PlayerMiniMap : MonoBehaviour
             miniMap.gameObject.SetActive(false);
         }
     }
-    private void Update() // 지도맵 키패드 열람 시 미니맵 활성화
-    {
-        if (Input.GetKeyDown(KeyCode.M))
+    private void Update()
         {
+            bool isPuzzleUIOpen = IsPuzzleUIOpen();
 
-            // 아직 미니맵을 얻지 않았다면 M키 차단
-            if (SaveManager.Instance == null ||!SaveManager.Instance.Data.hasOpenedMap)
+            // 퍼즐 UI가 방금 열림
+            if (isPuzzleUIOpen && !wasPuzzleUIOpen)
             {
-                return;
-            }
-            // 대사 중이면 차단
-            if (DialogueManager.Instance != null &&
-                DialogueManager.Instance.getIsDialogueRunning())
-            {
-                return;
+                HideMiniMap();
+                worldMap.SetActive(false);
             }
 
-            // 활성화된 퍼즐 UI가 하나라도 있으면 차단
-            if (IsPuzzleUIOpen())
+            // 퍼즐 UI가 방금 닫힘
+            if (!isPuzzleUIOpen && wasPuzzleUIOpen)
             {
-                return;
+                ShowMiniMap();
             }
+
+            // 현재 상태 저장
+            wasPuzzleUIOpen = isPuzzleUIOpen;
+
+
+            // M키로 월드맵 열기
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                // 아직 미니맵을 얻지 않았다면 차단
+                if (SaveManager.Instance == null ||!SaveManager.Instance.Data.hasOpenedMap)
+                {
+                    return;
+                }
+
+                // 대사 중이면 차단
+                if (DialogueManager.Instance != null &&DialogueManager.Instance.getIsDialogueRunning())
+                {
+                    return;
+                }
+
+                // 퍼즐 UI가 열려 있으면 차단
+                if (isPuzzleUIOpen)
+                {
+                    return;
+                }
 
             ToggleWorldMap();
         }
     }
+
 
     private bool IsPuzzleUIOpen()
     {

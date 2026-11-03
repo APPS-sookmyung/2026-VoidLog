@@ -4099,7 +4099,7 @@ GameObject:
   - component: {fileID: 654988499}
   m_Layer: 5
   m_Name: letterCanvas
-  m_TagString: Untagged
+  m_TagString: PuzzleUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12670,7 +12670,7 @@ GameObject:
   - component: {fileID: 1689532845}
   m_Layer: 5
   m_Name: MapKeypad
-  m_TagString: Untagged
+  m_TagString: PuzzleUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14751,7 +14751,7 @@ GameObject:
   - component: {fileID: 1901388988}
   m_Layer: 5
   m_Name: Moniter
-  m_TagString: Untagged
+  m_TagString: PuzzleUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
