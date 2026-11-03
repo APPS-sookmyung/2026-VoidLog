@@ -1550,8 +1550,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 036b50589c540994690fcc1faf4cfd90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMiniMap
-  miniMap: {fileID: 82220737}
-  worldMap: {fileID: 82220736}
+  miniMap: {fileID: 732807352}
+  worldMap: {fileID: 1122549774}
 --- !u!1 &365684280
 GameObject:
   m_ObjectHideFlags: 0
@@ -2271,8 +2271,7 @@ Transform:
   m_LocalPosition: {x: -10.69, y: 0.6999998, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1821986624}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &519420033
@@ -3962,11 +3961,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!4 &788698858 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3212378389228765826, guid: 33b338dc390ac4a4e9094408187f3153, type: 3}
-  m_PrefabInstance: {fileID: 517243420}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &871021731
 GameObject:
   m_ObjectHideFlags: 0
@@ -7643,3 +7637,4 @@ SceneRoots:
   - {fileID: 2119710937}
   - {fileID: 230657483}
   - {fileID: 1836079355}
+  - {fileID: 329659556}
