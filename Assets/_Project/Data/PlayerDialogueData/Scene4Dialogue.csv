@@ -1,0 +1,12 @@
+﻿GroupID,Order,Speaker,Text,"Portrait
+(표정 스프라이트 이름)","SoundEffect
+(효과음)",Memo
+Enter,1,Player,기록실이라...,Neutral,,
+Enter,2,Player,통제실이 차단되면서 기록실 문도 잠겨버렸어. ,Confused,,
+Enter,3,Player,여는 방법을 찾아야 해…,,,
+Enter,4,Player,저기 편지가 떨어져있다..!,Surprised,,
+PuzzleClear,1,System,[인증 완료: 보안 권한이 승인되었습니다.],,,
+PuzzleClear,2,System,[시스템: 메인 기록실이 개방되었습니다.],,,
+PuzzleClear,3,Player,드디어…,Surprised,,
+PuzzleClear,4,Player,메인기록실이다..,Neutral,,
+PuzzleClear,5,Player,들키기 전에 얼른 가자.,Neutral,,
