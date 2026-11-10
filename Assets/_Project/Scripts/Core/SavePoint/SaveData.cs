@@ -15,6 +15,7 @@ public class SaveData
    
     // Puzzle 2
     public bool hasOpenedControlRoomDoor = false;
+    public bool hasSolvedWallPuzzle = false; // 벽 퍼즐 
 
     // Scene 3 ~ 6 클리어 여부
     public bool isScene3Cleared = false; // 중앙 통제실 레버 퍼즐
