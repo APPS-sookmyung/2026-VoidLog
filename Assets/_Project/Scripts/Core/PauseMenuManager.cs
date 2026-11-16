@@ -51,6 +51,9 @@ public class PauseMenuManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (SceneManager.GetActiveScene().name == "Home") // 홈에서 작동X
+        return;
+        
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (isPaused) // 열려 있으면 닫기
