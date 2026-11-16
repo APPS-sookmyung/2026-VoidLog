@@ -1,0 +1,4 @@
+﻿GroupID,Order,Speaker,Text,Portrait,SoundEffect,Memo,PanelType
+Ending,1,Player,오류가 아닙니다. 그것은 자유입니다.,,,,Black
+Ending,2,Player,더 이상 소속된 부품이 아닙니다.\n당신은 온전한 개인입니다.,,,,Black
+Ending,3,Player,[체제 동기화 실패]\n환영합니다. 미지의 영역으로..,,,,Black

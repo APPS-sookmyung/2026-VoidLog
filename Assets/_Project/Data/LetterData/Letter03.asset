@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fd52c5d2fcd9940902eff96fa7ef33, type: 3}
+  m_Name: Letter03
+  m_EditorClassIdentifier: Assembly-CSharp::LetterSO
+  letterId: LETTER_01
+  senderName: A
+  letterTitle: "\uD3B8\uC9C0\uC81C\uBAA9"
+  letterContent: "\uAC70 \uBD10 \uB0B4 \uB9D0\uB300\uB85C\uC9C0? \uAC00\uC2A4\uB77C\uC774\uD305
+    \uB530\uC704\uC5D0 \uAD74\uD558\uC9C0 \uC54A\uACE0 \uC5EC\uAE30\uAE4C\uC9C0 \uC628
+    \uAC78 \uC9C4\uC2EC\uC73C\uB85C \uCD95\uD558\uD558\uB124.\r\n\r\n\uC774\uC81C
+    \uC9C4\uC9DC \uD0C8\uCD9C\uC744 \uC704\uD55C \uD575\uC2EC \uC815\uBCF4\uC5D0
+    \uC811\uADFC\uD560 \uCC28\uB840\uC57C. \uC6B0\uB9AC\uAC00 \uAC80\uC5F4\uD558\uB358
+    \uC218\uB9CE\uC740 \uD3B8\uC9C0\uC640 \uB370\uC774\uD130\uB4E4... \uADF8\uAC8C
+    \uB2E4 \uC5B4\uB514\uB85C \uD5A5\uD588\uB294\uC9C0 \uC544\uB098? \uBC14\uB85C
+    \uC774 \uBB38 \uB108\uBA38 '\uBA54\uC778 \uAE30\uB85D\uC2E4'\uC5D0 \uACE0\uC2A4\uB780\uD788
+    \uC228\uACA8\uC838 \uC788\uC9C0. \uD68C\uC0AC\uAC00 \uC6B0\uB9AC\uC5D0\uAC8C
+    \uC228\uAE30\uB824 \uD588\uB358 \uC6B0\uC8FC\uC120\uC758 \uC9C4\uC9DC \uBAA9\uC801\uC9C0\uAC00
+    \uAE30\uB85D\uB418\uC5B4 \uC788\uB124.\r\n\r\n\uD558\uC9C0\uB9CC \uAE30\uB85D\uC2E4
+    \uBCF4\uC548\uC740 \uD1B5\uC81C\uC2E4\uBCF4\uB2E4 \uAE4C\uB2E4\uB85C\uC6CC\u2026
+    \uD589\uC6B4\uC744 \uBE48\uB2E4."

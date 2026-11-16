@@ -1,0 +1,7 @@
+﻿GroupID,Order,Speaker,Text,"Portrait
+(표정 스프라이트 이름)","SoundEffect
+(효과음)",Memo
+Enter,1,Player,저게... 진짜 우주선이야.,Surprised,,
+Enter,2,Player,나갈 수 있어.,Surprised,,
+Enter,3,Player,더 이상 이곳에 갇혀 있지 않을 거야.,Smile,,
+Enter,4,Player,저기 편지가 떨어져있다.,Neutral,,
