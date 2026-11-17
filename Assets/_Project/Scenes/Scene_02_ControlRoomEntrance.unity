@@ -4666,6 +4666,7 @@ GameObject:
   - component: {fileID: 1449806798}
   - component: {fileID: 1449806800}
   - component: {fileID: 1449806799}
+  - component: {fileID: 1449806801}
   m_Layer: 0
   m_Name: Wall_Right
   m_TagString: Untagged
@@ -4718,7 +4719,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -4793,6 +4794,20 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1449806801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449806797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eba5f2804ab79384ca5eb16fd9327f6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneTransitionWall
+  nextSceneName: Scene_03_Control
+  spawnPointName: FromControlEntrance
 --- !u!1 &1476153383
 GameObject:
   m_ObjectHideFlags: 0
