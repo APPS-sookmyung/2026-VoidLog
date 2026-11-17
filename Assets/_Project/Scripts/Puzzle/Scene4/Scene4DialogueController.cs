@@ -17,12 +17,19 @@ public class Scene4DialogueController : MonoBehaviour
             yield break;
         }
 
+        // CSV는 항상 로드해 둠 (PuzzleClear 대사 등에서 필요)
         DialogueManager.Instance.LoadDialogueDatabase(sceneDialogueCSV);
-        DialogueManager.Instance.StartDialogueGroup("Enter");
+
+        // 시작 대사는 이 씬에서 처음 들어왔을 때 한 번만 재생
+        if (!Scene4Progress.enterDialoguePlayed)
+        {
+            Scene4Progress.enterDialoguePlayed = true;
+            DialogueManager.Instance.StartDialogueGroup("Enter");
+        }
     }
 
     // 스도쿠 클리어 후 SudokuManager가 호출.
-    // startDelay초 기다렸다가 PuzzleClear 대사를 재생하고, 대사가 끝나면 onEnd 실행 (다음 씬 이동 등)
+    // startDelay초 기다렸다가 PuzzleClear 대사를 재생하고, 대사가 끝나면 onEnd 실행 (출구 벽 열기 등)
     public void PlayClearDialogue(Action onEnd, float startDelay = 0f)
     {
         StartCoroutine(PlayClearDialogueRoutine(onEnd, startDelay));
