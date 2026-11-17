@@ -96,7 +96,7 @@ public class PlayerMiniMap : MonoBehaviour
 
     public void ShowMiniMap() // 미니맵 활성화
     {
-        if (SaveManager.Instance.Data.hasOpenedMap && !worldMap.gameObject.activeSelf)
+        if (SaveManager.Instance != null && SaveManager.Instance.Data.hasOpenedMap && !worldMap.gameObject.activeSelf)
         {
             miniMap.gameObject.SetActive(true);
         }
