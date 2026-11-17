@@ -655,11 +655,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db362b708f8be6643908cdcad1a72643, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EndingDialogueController
-  endingDialogueCSV: {fileID: 4900000, guid: b5545e51f4ff98b4aa667cd371fdda82, type: 3}
-  stepManager: {fileID: 1785625985}
-  endingRandomGroupId: Ending
+  dialogueCSV: {fileID: 4900000, guid: b5545e51f4ff98b4aa667cd371fdda82, type: 3}
+  endingGroupId: Ending
+  replayGroupId: ReplayButton
   replayButton: {fileID: 0}
-  fadeControllerObject: {fileID: 0}
+  fadeController: {fileID: 0}
 --- !u!1 &783122057
 GameObject:
   m_ObjectHideFlags: 0
