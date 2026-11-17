@@ -272,6 +272,7 @@ GameObject:
   m_Component:
   - component: {fileID: 237194425}
   - component: {fileID: 237194426}
+  - component: {fileID: 237194427}
   m_Layer: 0
   m_Name: Test
   m_TagString: Untagged
@@ -302,7 +303,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 237194424}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 0c4130e1703d441478a1240966d9a148, type: 3}
+  m_VideoClip: {fileID: 0}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 660932533}
@@ -312,24 +313,38 @@ VideoPlayer:
   m_TargetMaterialProperty: <noninit>
   m_RenderMode: 0
   m_AspectRatio: 2
-  m_DataSource: 0
+  m_DataSource: 1
   m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
-  m_AudioOutputMode: 0
+  m_AudioOutputMode: 2
   m_TargetAudioSources:
   - {fileID: 0}
   m_DirectAudioVolumes:
   - 1
-  m_Url: 
+  m_Url: Video/Replay_Test.mp4
   m_EnabledAudioTracks: 01
   m_DirectAudioMutes: 00
   m_ControlledAudioTrackCount: 1
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_SkipOnDrop: 1
   m_Looping: 0
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
+--- !u!114 &237194427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237194424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c980cab89308477396b53d7cf8e4f852, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VoidLog.Core.ReplayVideoUrlSetter
+  relativePath: Video/Replay_Test.mp4
+  prepareOnAwake: 1
 --- !u!1 &400044606
 GameObject:
   m_ObjectHideFlags: 0
@@ -668,7 +683,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VoidLog.Core.OpeningStepManager
   steps:
   - stepName: Test_Video
-    duration: 9
+    duration: 10
     onStepStart:
       m_PersistentCalls:
         m_Calls:
