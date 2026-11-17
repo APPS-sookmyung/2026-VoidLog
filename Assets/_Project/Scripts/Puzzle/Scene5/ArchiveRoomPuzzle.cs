@@ -159,6 +159,11 @@ public class ArchiveRoomPuzzle : MonoBehaviour
 
         // 캔버스 비활성화
         if (puzzleCanvas != null) puzzleCanvas.gameObject.SetActive(false);
+
+        // 캔버스를 직접 끄면 InteractableObject.CloseInteract()를 거치지 않아
+        // 미니맵이 다시 켜지지 않으므로 여기서 직접 복구
+        PlayerMiniMap playerMiniMap = FindAnyObjectByType<PlayerMiniMap>();
+        if (playerMiniMap != null) playerMiniMap.ShowMiniMap();
     }
 
 }
