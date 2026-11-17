@@ -9,7 +9,7 @@ public class SudokuManager : MonoBehaviour
     [Header("연결할 것들 (Inspector에서 드래그)")]
     public GameObject cellPrefab;   // Cell_00 프리팹
     public Transform gridParent;    // SudokuGrid 오브젝트
-    public TMP_Text resultText;     // "Correct!" / "Game Over!" 등을 보여줄 텍스트 (없어도 동작함)
+    public TMP_Text resultText;     // "Success!" / "Game Over!" 등을 보여줄 텍스트 (없어도 동작함)
 
     [Header("오답 카운트 관련")]
     public TMP_Text wrongCountText; // "오답: 0 / 3" 처럼 보여줄 텍스트 (Inspector에서 연결)
@@ -22,22 +22,22 @@ public class SudokuManager : MonoBehaviour
     public float pulseScale = 1.25f;    // 정답 맞췄을 때 몇 배로 커질지
     public float pulseDuration = 0.12f; // 커졌다가 원래대로 돌아오는데 걸리는 시간(초)
 
-    [Header("클리어 후 연출 (맵 복귀 → 대사 → 다음 씬)")]
-    [Tooltip("스도쿠 UI 전체 패널. 클리어하면 이 패널이 꺼지면서 맵 화면으로 돌아갑니다.\n" +
-             "주의: SudokuManager가 붙어있는 오브젝트(또는 그 자식)는 넣지 마세요! 코루틴이 멈춥니다.")]
-    [SerializeField] private GameObject sudokuPanel;
+    [Header("클리어 후 연출 (Success 화면 → E → 대사 → 벽 통과)")]
+    [Tooltip("클리어 시 켜줄 Success 화면 (비워두면 resultText에 Success 문구만 표시)")]
+    [SerializeField] private GameObject successPanel;
     [Tooltip("Scene4DialogueController가 붙어있는 오브젝트 (GameManager 하위)")]
     [SerializeField] private Scene4DialogueController dialogueController;
-    [Tooltip("\"Correct!\"를 보여주고 패널을 닫기까지 대기 시간 (초)")]
-    [SerializeField] private float closeDelayTime = 1f;
-    [Tooltip("맵으로 돌아온 뒤 대사가 시작되기까지 대기 시간 (초)")]
+    [Tooltip("스도쿠 창을 닫은 뒤 PuzzleClear 대사를 재생할지 여부")]
+    [SerializeField] private bool playClearDialogue = true;
+    [Tooltip("스도쿠 창이 닫힌 뒤 대사가 시작되기까지 대기 시간 (초)")]
     [SerializeField] private float dialogueStartDelay = 0.5f;
-    [Tooltip("스도쿠 패널이 닫혀 맵으로 돌아왔을 때 호출 (예: 플레이어 이동 잠금 해제, 도어락 UI 숨기기 등)")]
+    [Tooltip("SceneTransitionWall 스크립트가 붙은 '그 벽'의 Box Collider 2D.\n" +
+             "처음엔 Is Trigger 해제(진짜 벽)로 두세요. 클리어 후 스도쿠 창을 닫으면 Is Trigger가 켜져서 통과 → 다음 씬으로 이동합니다.")]
+    [SerializeField] private Collider2D exitWallCollider;
+    [Tooltip("스도쿠 창이 닫혀 맵으로 돌아왔을 때 추가로 실행할 이벤트 (없어도 됨)")]
     [SerializeField] private UnityEvent onReturnToMap;
 
-    [Header("씬 전환 설정")]
-    [Tooltip("PuzzleClear 대사가 끝난 뒤 이동할 다음 씬의 이름 (예: Scene_05...). Build Settings에 등록되어 있어야 합니다.")]
-    [SerializeField] private string nextSceneName = "";
+    [Header("게임오버")]
     [Tooltip("게임오버 후 씬이 재시작되기 전 대기 시간 (초)")]
     [SerializeField] private float loadDelayTime = 1.5f;
 
@@ -55,6 +55,9 @@ public class SudokuManager : MonoBehaviour
 
     // 스도쿠를 클리어했는지 여부 (중복 저장 방지)
     private bool isCleared = false;
+
+    // 클리어 후 처리(대사 + 벽 열기)를 이미 했는지 (중복 실행 방지)
+    private bool clearHandled = false;
 
     [Header("클리어 저장 시 이어하기 위치 (비우면 기본 위치)")]
     [SerializeField] private string saveSpawnPointName = "";
@@ -89,13 +92,26 @@ public class SudokuManager : MonoBehaviour
 
     void Start()
     {
-        GenerateGrid();
-        UpdateWrongCountUI(); // 시작할 때 "오답: 0 / 3" 을 미리 화면에 표시
+        // 씬을 나갔다 돌아와도 이어서 하도록, 저장된 오답 횟수를 불러옴
+        wrongCount = Scene4Progress.wrongCount;
 
-        // 이미 클리어한 저장 데이터가 있으면 정답이 채워진 상태로 복구
-        if (SaveManager.Instance != null && SaveManager.Instance.Data.isScene4Cleared)
+        GenerateGrid(); // 저장된 칸 입력값도 여기서 복구됨
+        UpdateWrongCountUI();
+
+        // 이미 클리어한 기록이 있으면 정답이 채워진 상태로 복구
+        bool clearedBefore = Scene4Progress.sudokuCleared ||
+            (SaveManager.Instance != null && SaveManager.Instance.Data.isScene4Cleared);
+
+        if (clearedBefore)
         {
             RestoreClearedState();
+
+            // 클리어 후 처리(창 닫기 + 대사)까지 끝낸 적이 있으면 벽도 바로 통과 가능하게 열어둠
+            if (Scene4Progress.clearHandled)
+            {
+                clearHandled = true;
+                OpenExitWall();
+            }
         }
     }
 
@@ -132,6 +148,15 @@ public class SudokuManager : MonoBehaviour
                     input.text = "";
                     input.interactable = true;
 
+                    // 이전에 입력해 둔 값이 있으면 복구 (맞으면 초록, 틀리면 빨강)
+                    int saved = Scene4Progress.board[row, col];
+                    if (saved != 0)
+                    {
+                        input.SetTextWithoutNotify(saved.ToString());
+                        if (input.textComponent != null)
+                            input.textComponent.color = (saved == solution[row, col]) ? correctColor : wrongColor;
+                    }
+
                     input.onEndEdit.AddListener((value) => OnCellEndEdit(r, c));
                 }
             }
@@ -149,6 +174,7 @@ public class SudokuManager : MonoBehaviour
         // 칸을 비워두고 나갔다면 그냥 기본 색으로 되돌리고 끝
         if (string.IsNullOrEmpty(text))
         {
+            Scene4Progress.board[row, col] = 0; // 저장값도 비움
             if (input.textComponent != null)
                 input.textComponent.color = defaultColor;
             return;
@@ -158,9 +184,13 @@ public class SudokuManager : MonoBehaviour
 
         if (!int.TryParse(text, out playerNumber))
         {
+            Scene4Progress.board[row, col] = 0;
             input.text = "";
             return;
         }
+
+        // 입력한 값을 저장 (씬을 나갔다 돌아와도 유지)
+        Scene4Progress.board[row, col] = playerNumber;
 
         if (playerNumber == solution[row, col])
         {
@@ -183,6 +213,7 @@ public class SudokuManager : MonoBehaviour
                 input.textComponent.color = wrongColor;
 
             wrongCount++;
+            Scene4Progress.wrongCount = wrongCount; // 오답 횟수 저장
             UpdateWrongCountUI();
 
             if (wrongCount >= maxWrongCount)
@@ -233,6 +264,9 @@ public class SudokuManager : MonoBehaviour
     {
         isGameOver = true;
 
+        // 게임오버면 스도쿠만 처음부터 (편지/도어락/대사 진행은 유지)
+        Scene4Progress.ResetSudoku();
+
         LockAllCells();
 
         if (resultText != null)
@@ -280,23 +314,15 @@ public class SudokuManager : MonoBehaviour
             }
         }
 
-        if (resultText != null)
-        {
-            if (isCorrect)
-            {
-                resultText.text = "Correct!";
-                resultText.color = correctColor;
-            }
-            else
-            {
-                resultText.text = "Wrong. Try again.";
-                resultText.color = wrongColor;
-            }
-        }
-
         if (isCorrect)
         {
+            // 클리어 처리 (Success 문구는 OnSudokuCleared 안에서 표시)
             OnSudokuCleared();
+        }
+        else if (resultText != null)
+        {
+            resultText.text = "Wrong. Try again.";
+            resultText.color = wrongColor;
         }
     }
 
@@ -317,87 +343,65 @@ public class SudokuManager : MonoBehaviour
         return true;
     }
 
-    // 스도쿠 클리어 처리 + 저장
+    // 스도쿠 클리어 처리 + 저장 (창은 닫지 않고 Success 화면만 보여줌)
     void OnSudokuCleared()
     {
         if (isCleared) return;
         isCleared = true;
+        Scene4Progress.sudokuCleared = true; // 씬을 나갔다 돌아와도 클리어 상태 유지
 
         LockAllCells();
-
-        if (resultText != null)
-        {
-            resultText.text = "Correct!";
-            resultText.color = correctColor;
-        }
+        ShowSuccess();
 
         if (SaveManager.Instance != null)
         {
             SaveManager.Instance.SetSceneCleared(4, saveSpawnPointName);
         }
 
-        Debug.Log("[Sudoku] 스도쿠 클리어!");
-
-        // 클리어 후: 스도쿠 닫고 맵으로 복귀 → PuzzleClear 대사 → 끝나면 다음 씬으로 이동
-        StartCoroutine(ClearSequence());
+        Debug.Log("[Sudoku] 스도쿠 클리어! E를 누르면 창이 닫힙니다.");
     }
 
-    // 클리어 직후 연출: "Correct!" 잠깐 → 스도쿠 패널 닫기(맵 복귀) → 대사 → 다음 씬
-    IEnumerator ClearSequence()
+    void ShowSuccess()
     {
-        // 1) "Correct!" 잠깐 보여줌
-        yield return new WaitForSeconds(closeDelayTime);
+        if (successPanel != null) successPanel.SetActive(true);
 
-        // 2) 스도쿠 패널을 닫아서 맵 화면으로 복귀
-        if (sudokuPanel != null)
+        if (resultText != null)
         {
-            sudokuPanel.SetActive(false);
+            resultText.text = "Success!\n[E]를 눌러 닫기";
+            resultText.color = correctColor;
         }
-        else
-        {
-            Debug.LogWarning("[Sudoku] sudokuPanel이 연결되지 않았습니다. 스도쿠 UI가 대사 패널을 가릴 수 있어요!");
-        }
+    }
+
+    // 도어락(InteractableObject)의 On Close 이벤트에 연결할 함수
+    // 스도쿠 창이 닫힐 때마다 호출되지만, 클리어한 경우에만 뒷처리를 함
+    public void OnSudokuWindowClosed()
+    {
+        // 풀던 중에 닫은 경우: 아무것도 안 함 (칸 입력값/오답 횟수는 그대로 보존됨)
+        if (!isCleared || clearHandled) return;
+        clearHandled = true;
+        Scene4Progress.clearHandled = true; // 돌아왔을 때 대사 재생 없이 벽이 바로 열려 있도록 기록
 
         onReturnToMap?.Invoke();
 
-        // 3) 대사 시작 (맵 복귀 후 dialogueStartDelay초 뒤에 시작)
-        // 주의: sudokuPanel이 꺼지면서 이 오브젝트가 비활성화될 수도 있으므로,
-        //       여기서부터는 이 코루틴이 아니라 "항상 켜져 있는" Scene4DialogueController가 대기/진행을 맡습니다.
-        PlayClearDialogueThenNextScene();
-    }
-
-    void PlayClearDialogueThenNextScene()
-    {
-        Debug.Log("[Sudoku] PuzzleClear 대사 시작");
-
-        if (dialogueController != null)
+        if (playClearDialogue && dialogueController != null)
         {
-            // 대사가 끝나면 LoadNextScene 실행
-            dialogueController.PlayClearDialogue(LoadNextScene, dialogueStartDelay);
-        }
-        else if (DialogueManager.Instance != null)
-        {
-            // 컨트롤러를 연결 안 했다면 DialogueManager를 직접 사용 (CSV는 Scene4DialogueController가 이미 로드해 둠)
-            Debug.LogWarning("[Sudoku] dialogueController가 연결되지 않아 DialogueManager를 직접 호출합니다.");
-            DialogueManager.Instance.StartDialogueGroup("PuzzleClear", LoadNextScene);
+            // 대사가 끝나면 출구 벽을 열어줌
+            dialogueController.PlayClearDialogue(OpenExitWall, dialogueStartDelay);
         }
         else
         {
-            Debug.LogError("[Sudoku] DialogueManager.Instance가 없습니다. 대사 없이 다음 씬으로 이동합니다.");
-            LoadNextScene();
+            OpenExitWall();
         }
     }
 
-    void LoadNextScene()
+    void OpenExitWall()
     {
-        if (!string.IsNullOrEmpty(nextSceneName))
-        {
-            SceneManager.LoadScene(nextSceneName);
-        }
+        // 벽 콜라이더를 Trigger로 전환:
+        // 더 이상 길을 막지 않고(통과 가능), 플레이어가 닿으면 SceneTransitionWall의 OnTriggerEnter2D가 실행되어 다음 씬으로 이동
+        if (exitWallCollider != null)
+            exitWallCollider.isTrigger = true;
         else
-        {
-            Debug.LogWarning("다음 씬 이름(nextSceneName)이 비어있습니다! 인스펙터 창에서 이동할 씬 이름을 입력해주세요.");
-        }
+            Debug.LogWarning("[Sudoku] exitWallCollider가 연결되지 않았습니다! Inspector에서 벽의 Box Collider 2D를 연결해주세요.");
     }
 
     void RestoreClearedState()
@@ -424,7 +428,7 @@ public class SudokuManager : MonoBehaviour
 
         if (resultText != null)
         {
-            resultText.text = "Correct!";
+            resultText.text = "Success!\n[E]를 눌러 닫기";
             resultText.color = correctColor;
         }
     }

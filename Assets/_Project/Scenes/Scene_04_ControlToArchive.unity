@@ -444,7 +444,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -345}
+  m_AnchoredPosition: {x: 0, y: -386}
   m_SizeDelta: {x: 400, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &193487566
@@ -472,16 +472,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 193487566}
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.315, y: 0.4, z: 0.36085996}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.1803842}
+  m_LocalScale: {x: 0.4, y: 1.3, z: 0.36085996}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1380411758}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.37, y: 0.52}
+  m_AnchoredPosition: {x: -0.578, y: -2.45}
   m_SizeDelta: {x: 20.46, y: 5.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &193487568
@@ -570,7 +570,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 8.08485, y: 3.3842769, z: 11.056624, w: 1.484363}
+  m_margin: {x: 8.08485, y: 3.3842769, z: 11.100281, w: 1.484363}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   _SortingLayer: 0
@@ -744,14 +744,14 @@ MonoBehaviour:
   defaultColor: {r: 0, g: 0, b: 0, a: 1}
   pulseScale: 1.25
   pulseDuration: 0.12
-  sudokuPanel: {fileID: 1118961348}
+  successPanel: {fileID: 0}
   dialogueController: {fileID: 851823808}
-  closeDelayTime: 1
+  playClearDialogue: 1
   dialogueStartDelay: 0.5
+  exitWallCollider: {fileID: 1199201070}
   onReturnToMap:
     m_PersistentCalls:
       m_Calls: []
-  nextSceneName: Scene_05_ArchiveRoom
   loadDelayTime: 1.5
   saveSpawnPointName: 
 --- !u!4 &341566868
@@ -2288,6 +2288,7 @@ GameObject:
   - component: {fileID: 1199201069}
   - component: {fileID: 1199201071}
   - component: {fileID: 1199201070}
+  - component: {fileID: 1199201072}
   m_Layer: 0
   m_Name: Wall_Right
   m_TagString: Untagged
@@ -2415,6 +2416,20 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1199201072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199201068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eba5f2804ab79384ca5eb16fd9327f6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneTransitionWall
+  nextSceneName: Scene_05_ArchiveRoom
+  spawnPointName: 
 --- !u!1 &1244415098
 GameObject:
   m_ObjectHideFlags: 0
@@ -2841,14 +2856,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1380411757}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -3.827, y: 20.9, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: -1, w: 0}
+  m_LocalPosition: {x: -5.23, y: 20.06, z: 0}
   m_LocalScale: {x: 1.3290399, y: 0.45588, z: 0.73442996}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 193487567}
   m_Father: {fileID: 1027954121}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180}
 --- !u!114 &1380411760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2865,11 +2880,14 @@ MonoBehaviour:
   canvas: {fileID: 1118961351}
   onInteract:
     m_PersistentCalls:
+      m_Calls: []
+  onClose:
+    m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1380411760}
-        m_TargetAssemblyTypeName: InteractableObject, Assembly-CSharp
-        m_MethodName: set_enabled
-        m_Mode: 6
+      - m_Target: {fileID: 341566867}
+        m_TargetAssemblyTypeName: SudokuManager, Assembly-CSharp
+        m_MethodName: OnSudokuWindowClosed
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2878,9 +2896,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  onClose:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!70 &1380411761
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -3509,6 +3524,18 @@ MonoBehaviour:
       - m_Target: {fileID: 540534327}
         m_TargetAssemblyTypeName: UI_LetterPanel, Assembly-CSharp
         m_MethodName: CloseLetter
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 540534328}
+        m_TargetAssemblyTypeName: InteractableObject, Assembly-CSharp
+        m_MethodName: CloseInteract
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
