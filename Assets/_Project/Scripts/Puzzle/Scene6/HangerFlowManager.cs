@@ -44,6 +44,10 @@ public class HangerFlowManager : MonoBehaviour
         started = true;
 
         hangerRoot.SetActive(false);
+
+        // 미로가 켜져 있는 동안 미니맵을 숨기고, 미로가 꺼지면 다시 켜지도록 차단 컴포넌트를 붙인다.
+        if (mazeRoot.GetComponent<MiniMapBlocker>() == null)
+            mazeRoot.AddComponent<MiniMapBlocker>();
         mazeRoot.SetActive(true);
         if (mazeCanvas != null) mazeCanvas.SetActive(true);
 

@@ -8,6 +8,19 @@ public class PlayerMiniMap : MonoBehaviour
 
     private bool wasPuzzleUIOpen = false;
 
+    // 미니맵 차단 (예: Scene6 미로가 켜져 있는 동안)
+    // MiniMapBlocker가 켜질 때 +1, 꺼질 때 -1. 하나라도 켜져 있으면 미니맵/월드맵을 숨긴다.
+    private static int blockCount = 0;
+    public static bool IsBlocked => blockCount > 0;
+    private bool wasBlocked = false;
+
+    public static void AddBlocker() => blockCount++;
+    public static void RemoveBlocker() => blockCount = Mathf.Max(0, blockCount - 1);
+
+    // 에디터에서 Domain Reload를 끈 경우에도 플레이마다 초기화
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetBlockCount() => blockCount = 0;
+
     void Start()
     {
         worldMap.SetActive(false);
@@ -23,6 +36,25 @@ public class PlayerMiniMap : MonoBehaviour
     }
     private void Update()
         {
+            // 미니맵 차단 상태 변화 처리
+            bool isBlocked = IsBlocked;
+            if (isBlocked && !wasBlocked)
+            {
+                HideMiniMap();
+                worldMap.SetActive(false);
+            }
+            if (!isBlocked && wasBlocked)
+            {
+                ShowMiniMap();
+            }
+            wasBlocked = isBlocked;
+
+            // 차단 중에는 퍼즐 UI/M키 처리로 미니맵이 다시 켜지지 않도록 여기서 종료
+            if (isBlocked)
+            {
+                return;
+            }
+
             bool isPuzzleUIOpen = IsPuzzleUIOpen();
 
             // 퍼즐 UI가 방금 열림
@@ -78,6 +110,8 @@ public class PlayerMiniMap : MonoBehaviour
 
     public void ToggleWorldMap()
     {
+        if (IsBlocked) return; // 차단 중에는 월드맵도 열지 않음
+
         if (!worldMap.gameObject.activeSelf) // 월드맵 안켜진 상태면 키기
         {
             miniMap.gameObject.SetActive(false);
@@ -96,6 +130,8 @@ public class PlayerMiniMap : MonoBehaviour
 
     public void ShowMiniMap() // 미니맵 활성화
     {
+        if (IsBlocked) return; // 미로 등으로 차단 중이면 켜지 않음
+
         if (SaveManager.Instance != null && SaveManager.Instance.Data.hasOpenedMap && !worldMap.gameObject.activeSelf)
         {
             miniMap.gameObject.SetActive(true);
