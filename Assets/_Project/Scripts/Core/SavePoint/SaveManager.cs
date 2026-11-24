@@ -118,7 +118,7 @@ public class SaveManager : MonoBehaviour
 
         SceneTransitionData.spawnPointName = "";
 
-        SceneManager.LoadScene("Scene_01_Workshop");
+        SceneManager.LoadScene("Opening");
     }
 
     public void ResetData()
