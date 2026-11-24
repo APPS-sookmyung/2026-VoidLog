@@ -20,8 +20,10 @@ public class SaveData
     // Scene 3 ~ 6 클리어 여부
     public bool isScene3Cleared = false; // 중앙 통제실 레버 퍼즐
     public bool isScene4Cleared = false; // 스도쿠
+    public bool isScene4LetterRead = false; // 씬4 편지를 읽어서 도어락이 생겼는지
     public bool isScene5Cleared = false; // 기록실 비밀번호
     public bool isScene6Cleared = false; // 격납고 미로
+    public bool isScene6LetterRead = false;
 
     // 필요한 데이터 계속 추가
 }
